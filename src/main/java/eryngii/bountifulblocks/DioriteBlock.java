@@ -18,10 +18,10 @@ public class DioriteBlock extends Block
 
     @SideOnly(Side.CLIENT)
     private IIcon TopIcon;
- 
+
     @SideOnly(Side.CLIENT)
     private IIcon SideIcon;
- 
+
     public DioriteBlock() {
         super(Material.rock);
         setCreativeTab(CreativeTabs.tabBlock);/*クリエイティブタブの選択*/
@@ -35,13 +35,13 @@ public class DioriteBlock extends Block
 			this.iicon[i] = register.registerIcon(this.getTextureName() + "_" + i);
 		}
 	}
- 
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return iicon[meta];
 	}
- 
+
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
@@ -49,11 +49,10 @@ public class DioriteBlock extends Block
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
- 
+
 	@Override
 	public int damageDropped(int meta) {
 		return meta;
 	}
 
- 
 }
