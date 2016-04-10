@@ -1,9 +1,12 @@
-
 tile.blockDiorite.0.name=Diorite
 tile.blockDiorite.1.name=Andesite
 tile.blockDiorite.2.name=Granite
 tile.blockDiorite.3.name=Polished Diorite
 tile.blockDiorite.4.name=Polished Andesite
 tile.blockDiorite.5.name=Polished Granite
-tile.blockDiorite.6.name=Prismarine
+tile.blockDiorite.6.name=Prismarine Bricks
 tile.blockDiorite.7.name=Dark Prismarine
+tile.blockDiorite.8.name=Prismarine
+tile.blockDiorite.9.name=Green Prismarine
+tile.blockDiorite.10.name=Red Prismarine
+tile.blockDiorite.11.name=Blue Prismarine
