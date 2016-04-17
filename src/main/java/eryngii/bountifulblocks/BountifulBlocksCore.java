@@ -10,6 +10,7 @@ import net.minecraft.block.Block;
 
 public class BountifulBlocksCore {
 	  public static Block blockDiorite;
+	  public static Block blockFenceX;
 
 	  @EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
@@ -18,6 +19,11 @@ public class BountifulBlocksCore {
 		blockDiorite = new DioriteBlock();
 		//ブロックの登録。登録文字列はMOD内で被らなければ何でも良い。
 		GameRegistry.registerBlock(blockDiorite, ItemDioriteBlock.class, "blockDiorite");
+		
+		//nullはあかんだろ・・・
+		blockFenceX = new FenceBlockX(null, null);
+				
+		GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFence");
 
 	}
 
