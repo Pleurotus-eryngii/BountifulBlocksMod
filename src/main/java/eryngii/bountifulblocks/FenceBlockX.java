@@ -14,7 +14,7 @@ import net.minecraft.util.IIcon;
 
 public class FenceBlockX extends BlockFence
 {
-	
+    private static final String __OBFID = "CL_00000242";
 	private IIcon[] iicon = new IIcon[12];
 
     @SideOnly(Side.CLIENT)
@@ -24,25 +24,39 @@ public class FenceBlockX extends BlockFence
     private IIcon SideIcon;
 
     //どこかで見た手法。Java自体のエラーは無くなった
-    public FenceBlockX(String textur, Material mat) {
-        super(textur, mat);
+    public FenceBlockX(String str, Material p_i45406_2_)
+    {
+        super(str , p_i45406_2_);
         setCreativeTab(CreativeTabs.tabDecorations);/*クリエイティブタブの選択*/
-        setBlockName("blockFence");/*システム名の設定*/
-        setBlockTextureName("bountifulmod:blockfence");/*ブロックのテクスチャの指定(複数指定の場合は消してください)*/
+        setBlockName("blockFenceX");/*システム名の設定*/
+        setBlockTextureName("bountifulmod:blockfence");
     }
-
-	@Override
+    
+ 
+	
+ 
+    @Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
 		for (int i = 0; i < 12; i ++) {
-			this.iicon[i] = register.registerIcon(this.getTextureName() + "_" + i);
+			this.iicon[i] = register.registerIcon(this.getTextureName()+ "_" + i);
 		}
 	}
+    @SideOnly(Side.CLIENT)
+	public IIcon getIconFromDamage(int meta) {
+		return iicon[meta];
+    }
+    public int getMetadata(int meta) {
+ 		return meta;
+ 		}
 
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
+		
 		return iicon[meta];
+		
+
 	}
 
 	@Override
@@ -52,9 +66,11 @@ public class FenceBlockX extends BlockFence
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-
 	@Override
 	public int damageDropped(int meta) {
 		return meta;
 	}
+
+
 }
+

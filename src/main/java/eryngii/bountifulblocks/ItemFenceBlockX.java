@@ -13,4 +13,7 @@ public class ItemFenceBlockX extends ItemBlockWithMetadata {
 	public String getUnlocalizedName(ItemStack itemStack) {
 		return this.getUnlocalizedName() + "." + itemStack.getItemDamage();
 	}
+
+
+
 }

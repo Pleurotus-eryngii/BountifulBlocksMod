@@ -5,6 +5,7 @@ import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
+import net.minecraft.block.material.Material;
 
 @Mod(modid="bountifulblocksmod", name="1.8BlocksMod", version="1.0")
 
@@ -21,9 +22,9 @@ public class BountifulBlocksCore {
 		GameRegistry.registerBlock(blockDiorite, ItemDioriteBlock.class, "blockDiorite");
 		
 		//nullはあかんだろ・・・
-		blockFenceX = new FenceBlockX(null, null);
+		blockFenceX = new FenceBlockX("", Material.wood);
 				
-		GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFence");
+		GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFenceX");
 
 	}
 
