@@ -12,9 +12,9 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.IIcon;
 
-public class DioriteBlock extends Block
+public class CoarseDirtBlock extends Block
 {
-	private IIcon[] iicon = new IIcon[14];
+	private IIcon[] iicon = new IIcon[2];
 
     @SideOnly(Side.CLIENT)
     private IIcon TopIcon;
@@ -22,16 +22,16 @@ public class DioriteBlock extends Block
     @SideOnly(Side.CLIENT)
     private IIcon SideIcon;
 
-    public DioriteBlock() {
-        super(Material.rock);
+    public CoarseDirtBlock() {
+        super(Material.cloth);
         setCreativeTab(CreativeTabs.tabBlock);/*クリエイティブタブの選択*/
-        setBlockName("blockDiorite");/*システム名の設定*/
-        setBlockTextureName("bountifulmod:blockrock");/*ブロックのテクスチャの指定(複数指定の場合は消してください)*/
+        setBlockName("blockCoarseDirt");/*システム名の設定*/
+        setBlockTextureName("bountifulmod:blockcoarsedirt");/*ブロックのテクスチャの指定(複数指定の場合は消してください)*/
     }
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
-		for (int i = 0; i < 14; i ++) {
+		for (int i = 0; i < 2; i ++) {
 			this.iicon[i] = register.registerIcon(this.getTextureName() + "_" + i);
 		}
 	}
@@ -45,7 +45,7 @@ public class DioriteBlock extends Block
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
-		for (int i = 0; i < 14; i ++) {
+		for (int i = 0; i < 2; i ++) {
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
