@@ -11,13 +11,24 @@ import net.minecraft.util.IIcon;
 public class RedSandStoneBlock extends Block
 {
 
-
+//横面と上下面のテクスチャを指定するためのもの
 	@SideOnly(Side.CLIENT)
 	IIcon sideIcon;
 
 	@SideOnly(Side.CLIENT)
 	IIcon topIcon;
+	
+	//sideとtopにテクスチャを与える。
+    @Override
+    @SideOnly(Side.CLIENT)
+    public void registerBlockIcons(IIconRegister register)
+    {
+		this.topIcon = register.registerIcon("bountifulmod:rssblocktop");
+		
+        this.sideIcon = register.registerIcon("bountifulmod:rssblockside");
+    }
 
+	//引数で面の方角を指定し、先ほどのiconを渡す
 	 @SideOnly(Side.CLIENT)
 	    public IIcon getIcon(int par1, int par2)
 	    {
@@ -40,16 +51,4 @@ public class RedSandStoneBlock extends Block
      
     }
  
-    
- 
-
-    
-    @Override
-    @SideOnly(Side.CLIENT)
-    public void registerBlockIcons(IIconRegister register)
-    {
-		this.topIcon = register.registerIcon("bountifulmod:rssblocktop");
-		
-        this.sideIcon = register.registerIcon("bountifulmod:rssblockside");
-    }
          }

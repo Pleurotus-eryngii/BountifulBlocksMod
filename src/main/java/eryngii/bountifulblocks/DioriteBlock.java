@@ -14,13 +14,9 @@ import net.minecraft.util.IIcon;
 
 public class DioriteBlock extends Block
 {
+	//テクスチャや内部名称の際に使用する数値を設定
 	private IIcon[] iicon = new IIcon[14];
 
-    @SideOnly(Side.CLIENT)
-    private IIcon TopIcon;
-
-    @SideOnly(Side.CLIENT)
-    private IIcon SideIcon;
 
     public DioriteBlock() {
         super(Material.rock);

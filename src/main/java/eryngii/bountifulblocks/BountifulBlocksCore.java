@@ -10,14 +10,19 @@ import net.minecraft.block.material.Material;
 @Mod(modid="bountifulblocksmod", name="1.8BlocksMod", version="1.0")
 
 public class BountifulBlocksCore {
+	/*
+	 * メタデータ関連の処理は赤砂蛇凪浜様のWikiと、
+	 * reginn666氏のWikiを参考にさせていただきました。
+	 * */
+	
 	//全面同じテクスチャのブロック。代表者はDiorite
 	  public static Block blockDiorite;
-	//土の耐久レベルブロック 
+	//土と同じ耐久レベルのブロック 
 	  public static Block blockCoarseDirt;
-	//フェンス。
+	//フェンス類。
 	  public static Block blockFenceX;
 
-	  //面ごとにテクスチャが違うブロック。面倒なので個別登録
+	  //面ごとにテクスチャが違うブロック。処理が面倒なので個別登録
 	  public static Block blockRedSandStone;
 	  public static Block blockSRSS;//SmoothRedSandStone
 	  public static Block blockCRSS;//ChiseledRedSandStone
