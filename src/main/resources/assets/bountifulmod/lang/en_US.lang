@@ -19,3 +19,7 @@ tile.blockFenceX.3.name=Spruce Fence
 tile.blockFenceX.4.name=Jungle Fence
 tile.blockCoarseDirt.0.name=Coarse Dirt
 tile.blockCoarseDirt.1.name=Grass path
+tile.blockRedSandStone.name=Red Sandstone
+tile.blockSRSS.name=Smooth Red Sandstone
+tile.blockCRSS.name=Chiselled Red Sandstone
+tile.blockPurpurPillar.name=Purpur Pillar

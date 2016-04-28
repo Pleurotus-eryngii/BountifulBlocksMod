@@ -19,3 +19,7 @@ tile.blockFenceX.3.name=マツのフェンス
 tile.blockFenceX.4.name=ジャングルのフェンス
 tile.blockCoarseDirt.0.name=粗い土
 tile.blockCoarseDirt.1.name=小道ブロック
+tile.blockRedSandStone.name=赤砂岩
+tile.blockSRSS.name=滑らかな赤砂岩
+tile.blockCRSS.name=模様入りの赤砂岩
+tile.blockPurpurPillar.name=プルパー柱
