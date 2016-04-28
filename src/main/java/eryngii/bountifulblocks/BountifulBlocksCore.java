@@ -16,8 +16,7 @@ public class BountifulBlocksCore {
 	  public static Block blockCoarseDirt;
 	//フェンス。
 	  public static Block blockFenceX;
-	  
-	  public static Block blockDoorX;
+
 	  //面ごとにテクスチャが違うブロック。面倒なので個別登録
 	  public static Block blockRedSandStone;
 	  public static Block blockSRSS;//SmoothRedSandStone
@@ -40,8 +39,6 @@ public class BountifulBlocksCore {
 		blockFenceX = new FenceBlockX("", Material.wood);
 		GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFenceX");
 		
-		blockDoorX = new DoorBlockX();
-		GameRegistry.registerBlock(blockDoorX, ItemDoorBlockX.class, "blockDoorX");
 		
 		blockRedSandStone = new RedSandStoneBlock();
 		GameRegistry.registerBlock(blockRedSandStone, "blockRedSandStone");
