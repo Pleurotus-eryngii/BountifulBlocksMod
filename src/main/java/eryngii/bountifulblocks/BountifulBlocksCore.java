@@ -217,6 +217,13 @@ public void init(FMLInitializationEvent event){
             '#', Blocks.end_stone,
             '@', new ItemStack(Items.dye,1,5)
       );
+    
+    GameRegistry.addRecipe(new ItemStack(blockBarrier),
+            "###",
+            "# #",
+            "###",
+            '#', Blocks.glass
+            );
 
 	  
 	 
