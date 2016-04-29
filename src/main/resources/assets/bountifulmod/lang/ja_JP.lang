@@ -23,3 +23,5 @@ tile.blockRedSandStone.name=赤砂岩
 tile.blockSRSS.name=滑らかな赤砂岩
 tile.blockCRSS.name=模様入りの赤砂岩
 tile.blockPurpurPillar.name=プルパー柱
+tile.blockBarrier.name=バリアブロック
+tile.blockSeaLantern.name=シーランタン

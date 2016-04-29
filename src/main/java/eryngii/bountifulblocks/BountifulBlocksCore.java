@@ -41,7 +41,7 @@ public class BountifulBlocksCore {
 	  public static Block blockPurpurPillar;
 	  
 	  //明かり類。今回はシーランタンのみ
-	  //public static Block blockSeaLantern;
+	  public static Block blockSeaLantern;
 	  
 
 	  @Mod.EventHandler
@@ -89,6 +89,9 @@ public class BountifulBlocksCore {
 			
 			blockBarrier = new BarrierBlock();
 			GameRegistry.registerBlock(blockBarrier, "blockBarrier");
+			
+			blockSeaLantern = new SeaLanternBlock();
+			GameRegistry.registerBlock(blockSeaLantern, "blockSeaLantern");
 
 		
 			
@@ -162,20 +165,28 @@ public void init(FMLInitializationEvent event){
     		new ItemStack(blockDiorite,1,8),
  	        new ItemStack(Items.dye,1,4)
  	);
-    
+
     GameRegistry.addRecipe(new ItemStack(blockDiorite,4,6),
             "##",
             "##",
             '#', new ItemStack(blockDiorite,1,8)
     );
     
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,8),
+    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,7),
             "###",
             "#@#",
             "###",
             '#', new ItemStack(blockDiorite,1,8),
             '@', new ItemStack(Items.dye,1,0)
     );
+    GameRegistry.addRecipe(new ItemStack(blockDiorite,2,0),
+            "###",
+            "#@#",
+            "###",
+            '#', new ItemStack(blockDiorite,1,8) ,
+            '@', Blocks.redstone_lamp
+    );
+    
     
     GameRegistry.addRecipe(new ItemStack(blockRedSandStone),
             "##",

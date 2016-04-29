@@ -23,3 +23,5 @@ tile.blockRedSandStone.name=Red Sandstone
 tile.blockSRSS.name=Smooth Red Sandstone
 tile.blockCRSS.name=Chiselled Red Sandstone
 tile.blockPurpurPillar.name=Purpur Pillar
+tile.blockBarrier.name=Barrier Block
+tile.blockSeaLantern.name=Sea Lantern
