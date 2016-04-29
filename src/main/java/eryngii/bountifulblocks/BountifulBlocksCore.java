@@ -1,5 +1,7 @@
 package eryngii.bountifulblocks;
 
+import java.io.File;
+
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
@@ -37,40 +39,52 @@ public class BountifulBlocksCore {
 	  //面ごとにテクスチャが違うブロック。処理が面倒なので個別登録
 	  //処理についてはRedSandstoneのほうに解説をつけ、他は省略しました
 	  public static Block blockRedSandStone;
-	  public static Block blockSRSS;//SmoothRedSandStone
-	  public static Block blockCRSS;//ChiseledRedSandStone
+	  public static Block blockSmoothRedSandStone;
+	  public static Block blockChiseledRedSandStone;
 	  public static Block blockPurpurPillar;
 	  
 
 	  @EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
 	{
-		//ブロックのインスタンス生成
-		blockDiorite = new DioriteBlock();
-		//ブロックの登録。登録文字列はMOD内で被らなければ何でも良い。
-		//Item~~.classはアイテムとしてのブロックを処理するもの。メタデータ利用時に使う
-		GameRegistry.registerBlock(blockDiorite, ItemDioriteBlock.class, "blockDiorite");
+			//コンフィグをmodidではなく任意の名前で生成するためにFileインスタンスを生成してコンフィグクラスに渡している
+			File cfgfile = new File(event.getModConfigurationDirectory(), "BountifulBlocksMod.cfg");
+			BountifulBlocksConfig.preLoad(cfgfile);
+
+			/*メタデータを保持するブロック類。registerBlockメソッドの第二引数に該当クラスを渡している*/
+			
+			blockDiorite = new DioriteBlock();
+			GameRegistry.registerBlock(blockDiorite, ItemDioriteBlock.class, "blockDiorite");
+
+			blockCoarseDirt = new CoarseDirtBlock();
+			GameRegistry.registerBlock(blockCoarseDirt, ItemCoarseDirtBlock.class, "blockCoarseDirt");
+
+			//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
+			if(BountifulBlocksConfig.is1_8Mode){
+			//Fence類は全て1.8モードが有効であれば登録
+			blockFenceX = new FenceBlockX("", Material.wood);
+			GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFenceX");
+			}
 		
-		blockCoarseDirt = new CoarseDirtBlock();
-		GameRegistry.registerBlock(blockCoarseDirt, ItemCoarseDirtBlock.class, "blockCoarseDirt");
+			/*以下メタデータを保持しないブロック類*/
+			if(BountifulBlocksConfig.is1_8Mode){
+			//1.8モードが有効であれば登録
+			blockRedSandStone = new RedSandStoneBlock();
+			GameRegistry.registerBlock(blockRedSandStone, "blockRedSandStone");
+
+			blockChiseledRedSandStone = new CRSSBlock();
+			GameRegistry.registerBlock(blockChiseledRedSandStone, "blockCRSS");
+			}
+			
+			if(BountifulBlocksConfig.is1_9Mode){
+			//1.9モードが有効であれば登録
+			blockSmoothRedSandStone = new SRSSBlock();
+			GameRegistry.registerBlock(blockSmoothRedSandStone, "blockSRSS");
+
+			blockPurpurPillar = new PurpurPillarBlock();
+			GameRegistry.registerBlock(blockPurpurPillar, "blockPurpurPillar");
 		
-		//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
-		blockFenceX = new FenceBlockX("", Material.wood);
-		GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFenceX");
-		
-		blockRedSandStone = new RedSandStoneBlock();
-		GameRegistry.registerBlock(blockRedSandStone, "blockRedSandStone");
-		
-		blockCRSS = new CRSSBlock();
-		GameRegistry.registerBlock(blockCRSS, "blockCRSS");
-		
-		blockSRSS = new SRSSBlock();
-		GameRegistry.registerBlock(blockSRSS, "blockSRSS");
-		
-		blockPurpurPillar = new PurpurPillarBlock();
-		GameRegistry.registerBlock(blockPurpurPillar, "blockPurpurPillar");
-		
-		
+			}
 		//以下レシピ登録
         GameRegistry.addRecipe(new ItemStack(blockDiorite,2,0),
                 "#@",
@@ -157,7 +171,7 @@ public class BountifulBlocksCore {
                 '#', new ItemStack(Blocks.sand,1,1)
         );
         
-        GameRegistry.addRecipe(new ItemStack(blockSRSS),
+        GameRegistry.addRecipe(new ItemStack(blockSmoothRedSandStone),
                 "##",
                 "##",
                 '#', new ItemStack(blockRedSandStone)
@@ -191,7 +205,8 @@ public class BountifulBlocksCore {
                 '#', Blocks.end_stone,
                 '@', new ItemStack(Items.dye,1,5)
           );
-	}
+		}
+	
 	  @Mod.EventHandler
 	    public void init(FMLInitializationEvent event){
 	 
