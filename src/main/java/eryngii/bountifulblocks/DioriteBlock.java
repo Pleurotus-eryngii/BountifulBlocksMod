@@ -24,6 +24,7 @@ public class DioriteBlock extends Block
         setBlockName("blockDiorite");/*システム名の設定*/
         setBlockTextureName("bountifulmod:blockrock");/*ブロックのテクスチャの指定(複数指定の場合は消してください)*/
     }
+    //ブロックのテクスチャ指定。blockrock_(メタデータの値)
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
@@ -31,13 +32,13 @@ public class DioriteBlock extends Block
 			this.iicon[i] = register.registerIcon(this.getTextureName() + "_" + i);
 		}
 	}
-
+   //インベントリ内でのテクスチャの指定。metaでメタデータを取得している
 	@Override
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		return iicon[meta];
 	}
-
+//クリエイティブタブへの登録メソッド。第三引数のListにアイテムスタックを追加
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
@@ -45,7 +46,7 @@ public class DioriteBlock extends Block
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
-
+//ドロップ時のテクスチャ指定。インベントリ内での処理とほぼ同じ
 	@Override
 	public int damageDropped(int meta) {
 		return meta;

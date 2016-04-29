@@ -2,10 +2,20 @@ package eryngii.bountifulblocks;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.init.Blocks;
+import net.minecraft.init.Items;
+import net.minecraft.item.ItemStack;
+
+/*
+ * コメントアウトでエリンギの解説が付いています。
+ * 分かる範囲でしか解説していないため、曖昧な部分や誤った部分も多いかと思いますので、
+ * あくまで参考程度に
+ */
 
 @Mod(modid="bountifulblocksmod", name="1.8BlocksMod", version="1.0")
 
@@ -21,8 +31,11 @@ public class BountifulBlocksCore {
 	  public static Block blockCoarseDirt;
 	//フェンス類。
 	  public static Block blockFenceX;
+	  
+	  public static Block blockSeaLantern;
 
 	  //面ごとにテクスチャが違うブロック。処理が面倒なので個別登録
+	  //処理についてはRedSandstoneのほうに解説をつけ、他は省略しました
 	  public static Block blockRedSandStone;
 	  public static Block blockSRSS;//SmoothRedSandStone
 	  public static Block blockCRSS;//ChiseledRedSandStone
@@ -35,6 +48,7 @@ public class BountifulBlocksCore {
 		//ブロックのインスタンス生成
 		blockDiorite = new DioriteBlock();
 		//ブロックの登録。登録文字列はMOD内で被らなければ何でも良い。
+		//Item~~.classはアイテムとしてのブロックを処理するもの。メタデータ利用時に使う
 		GameRegistry.registerBlock(blockDiorite, ItemDioriteBlock.class, "blockDiorite");
 		
 		blockCoarseDirt = new CoarseDirtBlock();
@@ -43,7 +57,6 @@ public class BountifulBlocksCore {
 		//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
 		blockFenceX = new FenceBlockX("", Material.wood);
 		GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFenceX");
-		
 		
 		blockRedSandStone = new RedSandStoneBlock();
 		GameRegistry.registerBlock(blockRedSandStone, "blockRedSandStone");
@@ -58,8 +71,136 @@ public class BountifulBlocksCore {
 		GameRegistry.registerBlock(blockPurpurPillar, "blockPurpurPillar");
 		
 		
+		//以下レシピ登録
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,2,0),
+                "#@",
+                "@#",
+                '#', Blocks.cobblestone,
+                '@', Items.quartz
+        );
 
+        GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,2,1),
+        	       new ItemStack(blockDiorite,1,0),
+        	       Blocks.cobblestone
+        	);
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,2,2),
+        		new ItemStack(blockDiorite,1,0),
+     	       Items.quartz
+     	);
+	
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,4,3),
+                "##",
+                "##",
+                '#', new ItemStack(blockDiorite,1,0)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,4,4),
+                "##",
+                "##",
+                '#', new ItemStack(blockDiorite,1,1)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,4,5),
+                "##",
+                "##",
+                '#', new ItemStack(blockDiorite,1,2)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockCoarseDirt,4,0),
+                "#@",
+                "@#",
+                '#', Blocks.gravel,
+                '@', Blocks.dirt
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,4,8),
+                "#@",
+                "@#",
+                '#', new ItemStack(Items.dye,1,4),
+                '@', Blocks.cobblestone
+        );
+        
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,1,9),
+        		new ItemStack(blockDiorite,1,8),
+     	        new ItemStack(Items.dye,1,2)
+     	);
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,1,10),
+        		new ItemStack(blockDiorite,1,8),
+     	        new ItemStack(Items.dye,1,1)
+     	);
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,1,11),
+        		new ItemStack(blockDiorite,1,8),
+     	        new ItemStack(Items.dye,1,4)
+     	);
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,4,6),
+                "##",
+                "##",
+                '#', new ItemStack(blockDiorite,1,8)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,4,8),
+                "###",
+                "#@#",
+                "###",
+                '#', new ItemStack(blockDiorite,1,8),
+                '@', new ItemStack(Items.dye,1,0)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockRedSandStone),
+                "##",
+                "##",
+                '#', new ItemStack(Blocks.sand,1,1)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockSRSS),
+                "##",
+                "##",
+                '#', new ItemStack(blockRedSandStone)
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(Blocks.stonebrick,1,3),
+                "#",
+                "#",
+                '#', new ItemStack(Blocks.stone_slab,1,5)
+        );
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(Blocks.mossy_cobblestone),
+        		Blocks.cobblestone,
+     	        new ItemStack(Blocks.vine)
+     	);
+        
+        GameRegistry.addShapelessRecipe(new ItemStack(Blocks.stonebrick,1,1),
+        		new ItemStack(Blocks.stonebrick,1,0),
+     	        new ItemStack(Blocks.vine)
+     	);
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,1,13),
+                "##",
+                "##",
+                '#', Blocks.end_stone
+        );
+        
+        GameRegistry.addRecipe(new ItemStack(blockDiorite,1,12),
+                "#@",
+                "@#",
+                '#', Blocks.end_stone,
+                '@', new ItemStack(Items.dye,1,5)
+          );
 	}
-
+	  @Mod.EventHandler
+	    public void init(FMLInitializationEvent event){
+	 
+	        GameRegistry.addSmelting(new ItemStack(Blocks.stonebrick,1,0),new ItemStack(Blocks.stonebrick,1,2),0.1f);
+	 
+	            }
+	        
+	    
 
 }
+
+

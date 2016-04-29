@@ -14,6 +14,7 @@ import net.minecraft.util.IIcon;
 
 public class FenceBlockX extends BlockFence
 {
+	//登録や描画などの際に使用する数値
 	private IIcon[] iicon = new IIcon[5];
 
 
@@ -46,7 +47,7 @@ public class FenceBlockX extends BlockFence
 		
 
 	}
-
+//タブへの追加処理
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
