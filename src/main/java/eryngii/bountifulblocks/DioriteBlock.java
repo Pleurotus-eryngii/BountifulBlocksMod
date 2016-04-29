@@ -43,6 +43,7 @@ public class DioriteBlock extends Block
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
 		for (int i = 0; i < 14; i ++) {
+			System.out.println("両方！");
 			list.add(new ItemStack(item, 1, i));
 		}
 	}
