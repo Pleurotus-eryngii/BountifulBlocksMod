@@ -6,8 +6,10 @@ import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 
 /*
@@ -43,6 +45,10 @@ public class BountifulBlocksCore {
 	  //明かり類。今回はシーランタンのみ
 	  public static Block blockSeaLantern;
 	  
+	  //以下MayaCraft
+	  public static Block blockCannabis;
+	  public static Item itemCannabis;
+	  public static Block poppy;
 
 	  @Mod.EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
@@ -92,6 +98,17 @@ public class BountifulBlocksCore {
 			
 			blockSeaLantern = new SeaLanternBlock();
 			GameRegistry.registerBlock(blockSeaLantern, "blockSeaLantern");
+			
+			blockCannabis = new CannabisBlock();
+			GameRegistry.registerBlock(blockCannabis, "blockCannabis");
+			
+			itemCannabis = new Item()
+					.setCreativeTab(CreativeTabs.tabMaterials)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemCannabis")/*システム名の登録*/
+					.setTextureName("bountifulmod:cannabis");/*テクスチャの指定*/
+
+
+
 
 		
 			
