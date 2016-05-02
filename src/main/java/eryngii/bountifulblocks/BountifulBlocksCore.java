@@ -46,8 +46,10 @@ public class BountifulBlocksCore {
 	  public static Block blockSeaLantern;
 	  
 	  //以下MayaCraft
-	  public static Block blockCannabis;
-	  public static Item itemCannabis;
+	  public static Block blockCannabis;//苗
+	  public static Item itemCannabisPlant;//全体
+	  public static Item itemCannabisLeaf;//葉
+	  public static Item itemCannabisPowder;//粉
 	  public static Block poppy;
 
 	  @Mod.EventHandler
@@ -102,10 +104,25 @@ public class BountifulBlocksCore {
 			blockCannabis = new CannabisBlock();
 			GameRegistry.registerBlock(blockCannabis, "blockCannabis");
 			
-			itemCannabis = new Item()
+			itemCannabisPlant = new Item()
 					.setCreativeTab(CreativeTabs.tabMaterials)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemCannabis")/*システム名の登録*/
-					.setTextureName("bountifulmod:cannabis");/*テクスチャの指定*/
+					.setUnlocalizedName("itemCannabisPlant")/*システム名の登録*/
+					.setTextureName("bountifulmod:cannabis_plant");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemCannabisPlant, "itemCannabisPlant");
+			
+			itemCannabisLeaf = (new ItemCannabisLeaf(0, 0.0F, false))
+					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemCannabisLeaf")/*システム名の登録*/
+					.setTextureName("bountifulmod:cannabis_leaf");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemCannabisLeaf, "itemCannabisLeaf");
+			
+			itemCannabisPowder = new Item()
+					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemCannabisPowder")/*システム名の登録*/
+					.setTextureName("bountifulmod:cannabis_powder");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemCannabisPowder, "itemCannabisPowder");
+			
+			
 
 
 
@@ -233,6 +250,8 @@ public void init(FMLInitializationEvent event){
  	        new ItemStack(Blocks.vine)
  	);
     
+
+    
     GameRegistry.addRecipe(new ItemStack(blockDiorite,1,13),
             "##",
             "##",
@@ -257,6 +276,20 @@ public void init(FMLInitializationEvent event){
 	 
 	     GameRegistry.addSmelting(new ItemStack(Blocks.stonebrick,1,0),new ItemStack(Blocks.stonebrick,1,2),0.1f);
 	 
+	     
+	     GameRegistry.addShapelessRecipe(new ItemStack(itemCannabisLeaf,4),
+                  new ItemStack(itemCannabisPlant,1)
+	  	);
+	     
+	     GameRegistry.addRecipe(new ItemStack(blockCannabis,3),
+                "@@",
+                "@@",
+	    		 '@', new ItemStack(itemCannabisPlant,1)
+	  	);
+	     
+	     GameRegistry.addShapelessRecipe(new ItemStack(itemCannabisPowder,2),
+                 new ItemStack(itemCannabisLeaf,1)
+	  	);
 	     }
 	        
 	    

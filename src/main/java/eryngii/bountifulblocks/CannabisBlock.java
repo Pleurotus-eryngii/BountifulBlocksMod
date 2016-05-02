@@ -18,12 +18,13 @@ public class CannabisBlock extends BlockBush implements IGrowable {
     @SideOnly(Side.CLIENT)
     private IIcon[] icon;
 	private IIcon[] iIcon = new IIcon[8];
- 
+	
+
     public CannabisBlock() {
         super();
         setBlockTextureName("bountifulmod:cannabis_stage_0");
         setBlockName("blockCannabis");
-        setCreativeTab(CreativeTabs.tabBlock);
+        setCreativeTab(CreativeTabs.tabMaterials);
         // たまに成長するようにする。
         setTickRandomly(true);
         setStepSound(soundTypeGrass);
@@ -83,9 +84,8 @@ public class CannabisBlock extends BlockBush implements IGrowable {
 	@Override
     public int getRenderType() { return 1; // 描画タイプ:1はクロステクスチャ }
 	}
-    @Override
-	@SideOnly(Side.CLIENT)
-	public IIcon getIcon(int side, int meta) {
+    @SideOnly(Side.CLIENT)
+	public IIcon getIcon(int side,int meta) {
 		return iIcon[meta];
 	}
  
@@ -99,7 +99,9 @@ public class CannabisBlock extends BlockBush implements IGrowable {
     @Override
     // ドロップするアイテム
     public Item getItemDropped(int metadata, Random random, int fortune) {
-        return  BountifulBlocksCore.itemCannabis;
+        
+    		return  BountifulBlocksCore.itemCannabisPlant;
+    	
     }
  
     @Override
@@ -115,7 +117,6 @@ public class CannabisBlock extends BlockBush implements IGrowable {
           iIcon[4] = parIIconRegister.registerIcon("bountifulmod:cannabis_stage_4");
           iIcon[5] = parIIconRegister.registerIcon("bountifulmod:cannabis_stage_5");
           iIcon[6] = parIIconRegister.registerIcon("bountifulmod:cannabis_stage_6");
-          //iIcon[7] = parIIconRegister.registerIcon("bountifulmod:barrierinv");
     }
 
 
