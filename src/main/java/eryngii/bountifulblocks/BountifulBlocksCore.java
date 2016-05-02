@@ -9,10 +9,7 @@ import cpw.mods.fml.common.registry.GameRegistry;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.init.Blocks;
-import net.minecraft.init.Items;
 import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
 
 /*
  * コメントアウトでエリンギの解説が付いています。
@@ -123,174 +120,14 @@ public class BountifulBlocksCore {
 					.setTextureName("bountifulmod:cannabis_powder");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisPowder, "itemCannabisPowder");
 
-
-
-
-
-
-
-
 }
 
-@Mod.EventHandler
-public void init(FMLInitializationEvent event){
+	  @Mod.EventHandler
+	  public void init(FMLInitializationEvent event){
 
-	//以下レシピ登録
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,2,0),
-            "#@",
-            "@#",
-            '#', Blocks.cobblestone,
-            '@', Items.quartz
-    );
-
-    GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,2,1),
-    	       new ItemStack(blockDiorite,1,0),
-    	       Blocks.cobblestone
-    	);
-
-    GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,2,2),
-    		new ItemStack(blockDiorite,1,0),
- 	       Items.quartz
- 	);
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,3),
-            "##",
-            "##",
-            '#', new ItemStack(blockDiorite,1,0)
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,4),
-            "##",
-            "##",
-            '#', new ItemStack(blockDiorite,1,1)
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,5),
-            "##",
-            "##",
-            '#', new ItemStack(blockDiorite,1,2)
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockCoarseDirt,4,0),
-            "#@",
-            "@#",
-            '#', Blocks.gravel,
-            '@', Blocks.dirt
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,8),
-            "#@",
-            "@#",
-            '#', new ItemStack(Items.dye,1,4),
-            '@', Blocks.cobblestone
-    );
-
-
-    GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,1,9),
-    		new ItemStack(blockDiorite,1,8),
- 	        new ItemStack(Items.dye,1,2)
- 	);
-
-    GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,1,10),
-    		new ItemStack(blockDiorite,1,8),
- 	        new ItemStack(Items.dye,1,1)
- 	);
-
-    GameRegistry.addShapelessRecipe(new ItemStack(blockDiorite,1,11),
-    		new ItemStack(blockDiorite,1,8),
- 	        new ItemStack(Items.dye,1,4)
- 	);
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,6),
-            "##",
-            "##",
-            '#', new ItemStack(blockDiorite,1,8)
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,4,7),
-            "###",
-            "#@#",
-            "###",
-            '#', new ItemStack(blockDiorite,1,8),
-            '@', new ItemStack(Items.dye,1,0)
-    );
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,2,0),
-            "###",
-            "#@#",
-            "###",
-            '#', new ItemStack(blockDiorite,1,8) ,
-            '@', Blocks.redstone_lamp
-    );
-
-
-    GameRegistry.addRecipe(new ItemStack(blockRedSandStone),
-            "##",
-            "##",
-            '#', new ItemStack(Blocks.sand,1,1)
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockSmoothRedSandStone),
-            "##",
-            "##",
-            '#', new ItemStack(blockRedSandStone)
-    );
-
-    GameRegistry.addRecipe(new ItemStack(Blocks.stonebrick,1,3),
-            "#",
-            "#",
-            '#', new ItemStack(Blocks.stone_slab,1,5)
-    );
-
-    GameRegistry.addShapelessRecipe(new ItemStack(Blocks.mossy_cobblestone),
-    		Blocks.cobblestone,
- 	        new ItemStack(Blocks.vine)
- 	);
-
-    GameRegistry.addShapelessRecipe(new ItemStack(Blocks.stonebrick,1,1),
-    		new ItemStack(Blocks.stonebrick,1,0),
- 	        new ItemStack(Blocks.vine)
- 	);
-
-
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,1,13),
-            "##",
-            "##",
-            '#', Blocks.end_stone
-    );
-
-    GameRegistry.addRecipe(new ItemStack(blockDiorite,1,12),
-            "#@",
-            "@#",
-            '#', Blocks.end_stone,
-            '@', new ItemStack(Items.dye,1,5)
-      );
-
-    GameRegistry.addRecipe(new ItemStack(blockBarrier),
-            "###",
-            "# #",
-            "###",
-            '#', Blocks.glass
-            );
-
-
-
-	     GameRegistry.addSmelting(new ItemStack(Blocks.stonebrick,1,0),new ItemStack(Blocks.stonebrick,1,2),0.1f);
-
-
-	     GameRegistry.addShapelessRecipe(new ItemStack(itemCannabisLeaf,4),
-                  new ItemStack(itemCannabisPlant,1)
-	  	);
-
-	     GameRegistry.addRecipe(new ItemStack(blockCannabis,3),
-                "@@",
-                "@@",
-	    		 '@', new ItemStack(itemCannabisPlant,1)
-	  	);
-
-	     GameRegistry.addShapelessRecipe(new ItemStack(itemCannabisPowder,2),
-                 new ItemStack(itemCannabisLeaf,1)
-	  	);
+		  	//レシピ登録
+		  RecipeRegister.init();
+    
 	     }
 
 
