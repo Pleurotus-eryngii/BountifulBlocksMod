@@ -29,3 +29,7 @@ tile.blockCannabis.name=Strange Plant Seedlings
 item.itemCannabisPlant.name=Strange Plant
 item.itemCannabisLeaf.name=Strange Leaf
 item.itemCannabisPowder.name=Strange Powder
+item.blockOpiumPoppy.name=Outlandish Plant Seedlings
+item.itemOpiumPoppyPlant.name=Outlandish Plant
+item.itemOpiumPoppy.name=Outlandish Seeds
+item.itemOpiumPoppyPowder.name=Outlandish Powder

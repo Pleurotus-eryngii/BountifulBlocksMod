@@ -87,7 +87,7 @@ public class RecipeRegister {
 	            '#', new ItemStack(BountifulBlocksCore.blockDiorite,1,8),
 	            '@', new ItemStack(Items.dye,1,0)
 	    );
-	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockDiorite,2,0),
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockSeaLantern),
 	            "###",
 	            "#@#",
 	            "###",
@@ -106,6 +106,14 @@ public class RecipeRegister {
 	            "##",
 	            "##",
 	            '#', new ItemStack(BountifulBlocksCore.blockRedSandStone)
+	    );
+	    
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockChiseledRedSandStone,3),
+	            "###",
+	            "   ",
+	            "###",
+	            '#', new ItemStack(BountifulBlocksCore.blockRedSandStone)
+	   
 	    );
 	    
 	    GameRegistry.addRecipe(new ItemStack(Blocks.stonebrick,1,3),
@@ -139,6 +147,48 @@ public class RecipeRegister {
 	            '@', new ItemStack(Items.dye,1,5)
 	      );
 	    
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockPurpurPillar),
+	            "@",
+	            "@",
+	            '@', new ItemStack(BountifulBlocksCore.blockDiorite,1,12)
+	      );
+	    
+	   GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockFenceX,4,0),
+	            "   ",
+	    		"@@@",
+	            "@ @",
+	            '@', new ItemStack(Blocks.planks,1,4)
+	      );
+	      
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockFenceX,4,1),
+	            "   ",
+	    		"@@@",
+	            "@ @",
+	            '@', new ItemStack(Blocks.planks,1,5)
+	      );
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockFenceX,4,2),
+	    		"   ",
+	    		"@@@",
+	            "@ @",
+	            '@', new ItemStack(Blocks.planks,1,2)
+	      );
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockFenceX,4,3),
+	    		"   ",
+	    		"@@@",
+	            "@ @",
+	            '@', new ItemStack(Blocks.planks,1,1)
+	      );
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockFenceX,4,4),
+	    		"   ",
+	    		"@@@",
+	            "@ @",
+	            '@', new ItemStack(Blocks.planks,1,3)
+	      );
+	      
+	    GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.blockCoarseDirt,3,1),
+	    		new ItemStack(Blocks.dirt,9)
+	 	);
+	    
 	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockBarrier),
 	            "###",
 	            "# #",
@@ -155,6 +205,12 @@ public class RecipeRegister {
 	                  new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
 		  	);
 		     
+		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis),
+		    		 "##",
+		    		 "##",
+	                  '#',new ItemStack(Items.wheat_seeds)
+		  	);
+		     
 		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis,3),
 	                "@@",
 	                "@@",
@@ -163,6 +219,29 @@ public class RecipeRegister {
 		     
 		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPowder,2),
 	                 new ItemStack(BountifulBlocksCore.itemCannabisLeaf,1)
+		  	);
+		     
+		     
+		     
+		     
+		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppy,4),
+	                  new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
+		  	);
+		     
+		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy),
+		    		 "##",
+		    		 "##",
+	                  '#',new ItemStack(Items.wheat_seeds)
+		  	);
+		     
+		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy,3),
+	                "@@",
+	                "@@",
+		    		 '@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
+		  	);
+		     
+		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder,2),
+	                 new ItemStack(BountifulBlocksCore.itemOpiumPoppy,1)
 		  	);
 		     }
 }

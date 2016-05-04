@@ -49,7 +49,10 @@ public class BountifulBlocksCore {
 	  public static Item itemCannabisPlant;//全体
 	  public static Item itemCannabisLeaf;//葉
 	  public static Item itemCannabisPowder;//粉
-	  public static Block poppy;
+	  public static Block blockOpiumPoppy;
+	  public static Item itemOpiumPoppyPlant;
+	  public static Item itemOpiumPoppy;
+	  public static Item itemOpiumPoppyPowder;
 
 	  @Mod.EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
@@ -119,6 +122,29 @@ public class BountifulBlocksCore {
 					.setUnlocalizedName("itemCannabisPowder")/*システム名の登録*/
 					.setTextureName("bountifulmod:cannabis_powder");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisPowder, "itemCannabisPowder");
+			
+			
+			blockOpiumPoppy = new OPoppyBlock();
+			GameRegistry.registerBlock(blockOpiumPoppy, "blockOpiumPoppy");
+			
+			itemOpiumPoppyPlant = new Item()
+					.setCreativeTab(CreativeTabs.tabMaterials)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemOpiumPoppyPlant")/*システム名の登録*/
+					.setTextureName("bountifulmod:opoppy_plant");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemOpiumPoppyPlant, "itemOpiumPoppyPlant");
+			
+			itemOpiumPoppy = (new ItemOPoppy(1, 1.0F, false))
+					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemOpiumPoppy")/*システム名の登録*/
+					.setTextureName("bountifulmod:opoppy");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemOpiumPoppy, "itemOpiumPoppy");
+			
+
+			itemOpiumPoppyPowder = (new ItemOPoppyPowder(1, 1.0F, false))
+					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemOpiumPoppyPowder")/*システム名の登録*/
+					.setTextureName("bountifulmod:opoppy_powder");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemOpiumPoppyPowder, "itemOpiumPoppyPowder");
 			
 }
 	  @Mod.EventHandler
