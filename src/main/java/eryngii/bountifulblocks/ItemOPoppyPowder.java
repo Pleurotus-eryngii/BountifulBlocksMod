@@ -64,6 +64,8 @@ public class ItemOPoppyPowder  extends ItemFood{
          par3EntityPlayer.addPotionEffect(Effect3);
          par3EntityPlayer.addPotionEffect(Effect4);
          par3EntityPlayer.addPotionEffect(Effect5);
+         
+         par2World.playSoundAtEntity(par3EntityPlayer, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
      }
 
      

@@ -10,11 +10,15 @@ import net.minecraft.world.World;
 
 public class ItemCannabisLeaf extends ItemFood{
 
+
+	
 	public ItemCannabisLeaf(int par1, float par2, boolean par3) {
 		super(par1 ,par2 ,par3);
 		this.setAlwaysEdible();	//お腹すいてなくても食べれる。
-
+	
 	}
+	
+
 	@Override
 	public ItemStack onEaten(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
@@ -33,17 +37,17 @@ public class ItemCannabisLeaf extends ItemFood{
 		int potionID4 = Potion.digSpeed.id;
 		int potionID5 = Potion.moveSpeed.id;
 		//Potionの効果時間（【20tick ≒ 1秒】なので*20）
-		int duration = 60 * 20;
+		int duration = 10 * 20;
 		int duration2 = 60 * 20;
 		int duration3 = 60 * 20;
 		int duration4 = 60 * 20;
 		int duration5 = 60 * 20;
 		//PotionのLv(実際はこのレベルに+1される）
-		int amplifier = 3;
-		int amplifier2 = 3;
-		int amplifier3 = 3;
-		int amplifier4 = 3;
-		int amplifier5 = 3;
+		int amplifier = 2;
+		int amplifier2 = 2;
+		int amplifier3 = 2;
+		int amplifier4 = 2;
+		int amplifier5 = 2;
 
 		//PotionEffectの設定
 		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
@@ -61,12 +65,20 @@ public class ItemCannabisLeaf extends ItemFood{
          //効果付与
          par3EntityPlayer.addPotionEffect(Effect);
          par3EntityPlayer.addPotionEffect(Effect2);
-         par3EntityPlayer.addPotionEffect(Effect3);
-         par3EntityPlayer.addPotionEffect(Effect4);
-         par3EntityPlayer.addPotionEffect(Effect5);
-         //お遊び。任意のセリフに変更してかまわない
-         par3EntityPlayer.addChatMessage(new ChatComponentTranslation("葉っぱサイコー!"));
+    	 par3EntityPlayer.addPotionEffect(Effect3);
+    	 par3EntityPlayer.addPotionEffect(Effect4);
+    	 par3EntityPlayer.addPotionEffect(Effect5);
+
+    	 //独自BGM。エンダーマンのStare(見つめ)音とクリーパーの恐怖のSh音をMix
+    	 par2World.playSoundAtEntity(par3EntityPlayer, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
      }
+         //お遊び。任意のセリフに変更してかまわない
+         //このままだとクライアントとサーバが両方処理して2回表示されてしまうので、ifでクライアントのみに絞る
+         //http://forum.minecraftuser.jp/viewtopic.php?f=39&t=8370&start=2200#p271893  による
+         if (par2World.isRemote == true){
+         par3EntityPlayer.addChatMessage(new ChatComponentTranslation(par3EntityPlayer.getDisplayName()+"「葉っぱサイコー!」"));
+         }
+     
 
      
         return par1ItemStack;

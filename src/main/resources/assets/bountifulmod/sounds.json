@@ -1,0 +1,14 @@
+{
+  "cannabisbgm":{
+    "category":"player",
+    "sounds":[
+      {
+        "name": "terror",
+        "weight": 1,
+        "volume": 1,
+        "pitch":1,
+        "stream":true
+      }
+    ]
+  }
+}

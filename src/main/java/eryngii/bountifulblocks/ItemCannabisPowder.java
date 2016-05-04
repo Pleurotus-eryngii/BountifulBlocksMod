@@ -40,11 +40,11 @@ public class ItemCannabisPowder extends ItemFood{
 		int duration4 = 60 * 20;
 		int duration5 = 60 * 20;
 		//PotionのLv(実際はこのレベルに+1される）
-		int amplifier = 4;
-		int amplifier2 = 4;
-		int amplifier3 = 4;
-		int amplifier4 = 4;
-		int amplifier5 = 4;
+		int amplifier = 3;
+		int amplifier2 = 3;
+		int amplifier3 = 2;
+		int amplifier4 = 3;
+		int amplifier5 = 3;
 
 		//PotionEffectの設定
 		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
@@ -65,9 +65,15 @@ public class ItemCannabisPowder extends ItemFood{
          par3EntityPlayer.addPotionEffect(Effect3);
          par3EntityPlayer.addPotionEffect(Effect4);
          par3EntityPlayer.addPotionEffect(Effect5);
+         
+         par2World.playSoundAtEntity(par3EntityPlayer, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
          //お遊び。任意のセリフに変更してかまわない
-         par3EntityPlayer.addChatMessage(new ChatComponentTranslation("オクスリサイコー!"));
-     }
+         //このままだとクライアントとサーバが両方処理して2回表示されてしまうので、ifでクライアントのみに絞る
+         //http://forum.minecraftuser.jp/viewtopic.php?f=39&t=8370&start=2200#p271893  による
+         if (par2World.isRemote == true){
+         par3EntityPlayer.addChatMessage(new ChatComponentTranslation(par3EntityPlayer.getDisplayName()+"「おクスリサイコー!」"));
+         }
+         }
 
      
         return par1ItemStack;
