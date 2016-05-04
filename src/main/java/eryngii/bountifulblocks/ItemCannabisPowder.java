@@ -8,9 +8,9 @@ import net.minecraft.potion.PotionEffect;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.world.World;
 
-public class ItemCannabisLeaf extends ItemFood{
+public class ItemCannabisPowder extends ItemFood{
 
-	public ItemCannabisLeaf(int par1, float par2, boolean par3) {
+	public ItemCannabisPowder(int par1, float par2, boolean par3) {
 		super(par1 ,par2 ,par3);
 		this.setAlwaysEdible();	//お腹すいてなくても食べれる。
 
@@ -23,6 +23,7 @@ public class ItemCannabisLeaf extends ItemFood{
 		if (!par3EntityPlayer.capabilities.isCreativeMode) {
 			--par1ItemStack.stackSize;
 		}
+		
 		/*この場合個別に登録しているが、PotionEffectの処理の際には、
 		*同じdurationやamplifierを流用できるはず。
 		*今回は調整しやすくするために分けてみた
@@ -39,11 +40,11 @@ public class ItemCannabisLeaf extends ItemFood{
 		int duration4 = 60 * 20;
 		int duration5 = 60 * 20;
 		//PotionのLv(実際はこのレベルに+1される）
-		int amplifier = 3;
-		int amplifier2 = 3;
-		int amplifier3 = 3;
-		int amplifier4 = 3;
-		int amplifier5 = 3;
+		int amplifier = 4;
+		int amplifier2 = 4;
+		int amplifier3 = 4;
+		int amplifier4 = 4;
+		int amplifier5 = 4;
 
 		//PotionEffectの設定
 		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
@@ -65,7 +66,7 @@ public class ItemCannabisLeaf extends ItemFood{
          par3EntityPlayer.addPotionEffect(Effect4);
          par3EntityPlayer.addPotionEffect(Effect5);
          //お遊び。任意のセリフに変更してかまわない
-         par3EntityPlayer.addChatMessage(new ChatComponentTranslation("葉っぱサイコー!"));
+         par3EntityPlayer.addChatMessage(new ChatComponentTranslation("オクスリサイコー!"));
      }
 
      
@@ -74,4 +75,3 @@ public class ItemCannabisLeaf extends ItemFood{
 
 
 }
-

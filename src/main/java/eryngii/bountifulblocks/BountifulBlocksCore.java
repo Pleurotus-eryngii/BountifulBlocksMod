@@ -110,13 +110,13 @@ public class BountifulBlocksCore {
 					.setTextureName("bountifulmod:cannabis_plant");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisPlant, "itemCannabisPlant");
 			
-			itemCannabisLeaf = (new ItemCannabisLeaf(0, 0.0F, false))
+			itemCannabisLeaf = (new ItemCannabisLeaf(1, 1.0F, false))
 					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemCannabisLeaf")/*システム名の登録*/
 					.setTextureName("bountifulmod:cannabis_leaf");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisLeaf, "itemCannabisLeaf");
 			
-			itemCannabisPowder = new Item()
+			itemCannabisPowder = (new ItemCannabisPowder(1, 1.0F, false))
 					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemCannabisPowder")/*システム名の登録*/
 					.setTextureName("bountifulmod:cannabis_powder");/*テクスチャの指定*/
