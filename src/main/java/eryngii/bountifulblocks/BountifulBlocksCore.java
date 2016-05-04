@@ -49,10 +49,10 @@ public class BountifulBlocksCore {
 	  public static Item itemCannabisPlant;//全体
 	  public static Item itemCannabisLeaf;//葉
 	  public static Item itemCannabisPowder;//粉
-	  public static Block blockOpiumPoppy;
-	  public static Item itemOpiumPoppyPlant;
-	  public static Item itemOpiumPoppy;
-	  public static Item itemOpiumPoppyPowder;
+	  public static Block blockOpiumPoppy;//苗
+	  public static Item itemOpiumPoppyPlant;//全体
+	  public static Item itemOpiumPoppy;//使用部分
+	  public static Item itemOpiumPoppyPowder;//粉
 
 	  @Mod.EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
@@ -73,14 +73,6 @@ public class BountifulBlocksCore {
 			//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
 			blockFenceX = new FenceBlockX("", Material.wood);
 			GameRegistry.registerBlock(blockFenceX, ItemFenceBlockX.class, "blockFenceX");
-			
-			//blockHalfX = new HalfBlockX(null,0);
-			//GameRegistry.registerBlock(blockHalfX, ItemHalfBlockX.class, "blockHalfX");
-			/*
-			blockStairX = new DioriteBlock();
-			GameRegistry.registerBlock(blockDiorite, ItemDioriteBlock.class, "blockDiorite");
-			*/
-		
 			/*以下メタデータを保持しないブロック類*/
 
 
@@ -111,6 +103,7 @@ public class BountifulBlocksCore {
 					.setTextureName("bountifulmod:cannabis_plant");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisPlant, "itemCannabisPlant");
 			
+			//引数は左から満腹度回復量、腹持ち、オオカミに食べさせられるかどうか
 			itemCannabisLeaf = (new ItemCannabisLeaf(1, 1.0F, false))
 					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemCannabisLeaf")/*システム名の登録*/

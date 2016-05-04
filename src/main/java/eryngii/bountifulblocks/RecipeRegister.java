@@ -229,8 +229,8 @@ public class RecipeRegister {
 		  	);
 		     
 		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy),
-		    		 "##",
-		    		 "##",
+		    		 "#",
+		    		 "#",
 	                  '#',new ItemStack(Items.wheat_seeds)
 		  	);
 		     
