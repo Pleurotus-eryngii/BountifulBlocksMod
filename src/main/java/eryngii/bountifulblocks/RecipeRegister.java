@@ -195,53 +195,47 @@ public class RecipeRegister {
 	            "###",
 	            '#', Blocks.glass
 	            );
-
-		  
-		 
-		     GameRegistry.addSmelting(new ItemStack(Blocks.stonebrick,1,0),new ItemStack(Blocks.stonebrick,1,2),0.1f);
+		GameRegistry.addSmelting(new ItemStack(Blocks.stonebrick,1,0),new ItemStack(Blocks.stonebrick,1,2),0.1f);
 		 
 		     
-		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisLeaf,4),
-	                  new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
-		  	);
+		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisLeaf,4),
+				new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
+				);
 		     
-		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis),
-		    		 "##",
-		    		 "##",
-	                  '#',new ItemStack(Items.wheat_seeds)
-		  	);
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis),
+		    	"##",
+		    	"##",
+	             '#',new ItemStack(Items.wheat_seeds)
+				);
 		     
-		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis,3),
-	                "@@",
-	                "@@",
-		    		 '@', new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
-		  	);
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis,3),
+				"@@",
+				"@@",
+				'@', new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
+				);
 		     
-		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPowder,2),
-	                 new ItemStack(BountifulBlocksCore.itemCannabisLeaf,1)
-		  	);
+		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPowder,2),
+				new ItemStack(BountifulBlocksCore.itemCannabisLeaf,1)
+				);
 		     
+		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppy,4),
+				new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
+				);
 		     
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy),
+				"#",
+				"#",
+				'#',new ItemStack(Items.wheat_seeds)
+				);
+		    	
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy,3),
+				"@@",
+				"@@",
+				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
+				);
 		     
-		     
-		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppy,4),
-	                  new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
-		  	);
-		     
-		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy),
-		    		 "#",
-		    		 "#",
-	                  '#',new ItemStack(Items.wheat_seeds)
-		  	);
-		     
-		     GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy,3),
-	                "@@",
-	                "@@",
-		    		 '@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
-		  	);
-		     
-		     GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder,2),
-	                 new ItemStack(BountifulBlocksCore.itemOpiumPoppy,1)
+		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder,2),
+				new ItemStack(BountifulBlocksCore.itemOpiumPoppy,1)
 		  	);
 		     }
 }
