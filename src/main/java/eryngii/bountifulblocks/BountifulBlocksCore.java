@@ -23,8 +23,13 @@ public class BountifulBlocksCore {
 	/*
 	 * メタデータ関連の処理は赤砂蛇凪浜様のWikiと、
 	 * reginn666様のWikiを参考にさせていただきました。
+	 * 
+	 * なお、実績関連の処理はつてと様の豆腐Craftを参考にさせていただきました。
 	 * */
 	
+	 public static final String resourceDomain = "bountifulmod:";
+	 
+   
 	  //全面同じテクスチャのブロック。代表者はDiorite
 	  public static Block blockDiorite;
 	  //土と同じ耐久レベルのブロック 
@@ -62,6 +67,8 @@ public class BountifulBlocksCore {
 		  File cfgfile = new File(event.getModConfigurationDirectory(), "BountifulBlocksMod.cfg");
 			BountifulBlocksConfig.preLoad(cfgfile);
 			
+			
+		     
 			/*メタデータを保持するブロック類。registerBlockメソッドの第二引数に該当クラスを渡している*/
 			
 			blockDiorite = new DioriteBlock();
@@ -139,6 +146,14 @@ public class BountifulBlocksCore {
 					.setTextureName("bountifulmod:opoppy_powder");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemOpiumPoppyPowder, "itemOpiumPoppyPowder");
 			
+			
+			
+			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
+			if (BountifulBlocksConfig.achievement)
+		     {
+		         MayaAchievements.load();
+		     }
+		
 }
 	  @Mod.EventHandler
 	  public void init(FMLInitializationEvent event){

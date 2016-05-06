@@ -8,6 +8,7 @@ public class BountifulBlocksConfig {
 	 //モード判定用変数
 	static boolean is1_8Mode;
 	static boolean is1_9Mode;
+	 public static boolean achievement = true;
 
 	public static void preLoad(File file){
 		Configuration cfg = new Configuration(file);
@@ -21,6 +22,14 @@ public class BountifulBlocksConfig {
 		}finally{
 			cfg.save();
 			System.out.println("セーブ");
+			
+
 		}
 	}
+	/*
+	  public static void load(Configuration cfgfile)
+	    {
+		  achievement = cfgfile.get("general", "achievement", achievement).getBoolean(true);
+	    }
+*/
 }
