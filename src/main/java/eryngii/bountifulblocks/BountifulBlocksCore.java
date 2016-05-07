@@ -24,7 +24,9 @@ public class BountifulBlocksCore {
 	 * メタデータ関連の処理は赤砂蛇凪浜様のWikiと、
 	 * reginn666様のWikiを参考にさせていただきました。
 	 * 
-	 * なお、実績関連の処理はつてと様の豆腐Craftを参考にさせていただきました。
+	 * なお、実績関連の処理はつてと様の豆腐Craft
+	 * 及びShift様のSextiarySector
+	 * を参考にさせていただきました。
 	 * */
 	
 	 public static final String resourceDomain = "bountifulmod:";
@@ -147,13 +149,15 @@ public class BountifulBlocksCore {
 			GameRegistry.registerItem(itemOpiumPoppyPowder, "itemOpiumPoppyPowder");
 			
 			
-			
+			/*
 			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
 			if (BountifulBlocksConfig.achievement)
 		     {
 		         MayaAchievements.load();
 		     }
-		
+		*/
+			//実績の登録
+			MayaAchievements.initAchievements();
 }
 	  @Mod.EventHandler
 	  public void init(FMLInitializationEvent event){
