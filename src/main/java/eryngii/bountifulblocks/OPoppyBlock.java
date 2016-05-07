@@ -23,7 +23,7 @@ public class OPoppyBlock extends BlockBush implements IGrowable {
     public OPoppyBlock() {
         super();
         setBlockTextureName("bountifulmod:opoppy_stage_0");
-        setBlockName("blockOPoppy");
+        setBlockName("blockOpiumPoppy");
         setCreativeTab(CreativeTabs.tabMaterials);
         // たまに成長するようにする。
         setTickRandomly(true);
@@ -116,7 +116,7 @@ public class OPoppyBlock extends BlockBush implements IGrowable {
           iIcon[3] = parIIconRegister.registerIcon("bountifulmod:opoppy_stage_3");
           iIcon[4] = parIIconRegister.registerIcon("bountifulmod:opoppy_stage_4");
           iIcon[5] = parIIconRegister.registerIcon("bountifulmod:opoppy_stage_5");
-          iIcon[6] = parIIconRegister.registerIcon("bountifulmod:ohpoppy_stage_6");
+          iIcon[6] = parIIconRegister.registerIcon("bountifulmod:opoppy_stage_6");
     }
 
 
