@@ -10,6 +10,10 @@ import net.minecraft.stats.Achievement;
 
 public class MayaAchievementCrafting  extends MayaAchievementBase {
 
+	//クラフトを取得して実績解除するためのもの。
+	
+	//第一引数に実績のシステム名、第2引数にx軸位置、第3引数にy軸位置、第4引数にアイコンになり、尚且つ解除のトリガーとなるアイテム、
+	//第5引数に前提となる別の実績(無い場合はnull)、第6引数には種類を登録する(今回は1種類)
     public MayaAchievementCrafting(String Str, int int1, int int2, ItemStack Stack, Achievement ach, ArrayList<Achievement> a) {
         super(Str, int1, int2, Stack, ach, a);
         FMLCommonHandler.instance().bus().register(this);

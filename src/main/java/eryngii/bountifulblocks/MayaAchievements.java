@@ -9,7 +9,8 @@ import net.minecraftforge.common.AchievementPage;
 public class MayaAchievements {
 
     private static ArrayList<Achievement> core = new ArrayList<Achievement>();
-    //Core
+    
+    //実績の登録
     public static Achievement CallingFrom;
     public static Achievement DangerousChallenge;
     public static Achievement MoreEffect;
