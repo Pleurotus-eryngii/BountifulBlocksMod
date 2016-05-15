@@ -23,7 +23,7 @@ public class OPoppyBlock extends BlockBush implements IGrowable {
     public OPoppyBlock() {
         super();
         setBlockTextureName("bountifulmod:opoppy_stage_0");
-        setBlockName("blockOPoppy");
+        setBlockName("blockOpiumPoppy");
         setCreativeTab(CreativeTabs.tabMaterials);
         // たまに成長するようにする。
         setTickRandomly(true);
