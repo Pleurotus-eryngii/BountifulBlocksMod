@@ -1,15 +1,26 @@
 package eryngii.bountifulblocks;
 
+import java.awt.Color;
 import java.io.File;
 
+import cpw.mods.fml.client.registry.RenderingRegistry;
+import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
+import cpw.mods.fml.common.Mod.EventHandler;
+import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
+import cpw.mods.fml.common.registry.VillagerRegistry;
+import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
+import net.minecraft.world.biome.BiomeGenBase;
+import net.minecraft.world.gen.structure.MapGenStructureIO;
 
 /*
  * コメントアウトでエリンギの解説が付いています。
@@ -27,6 +38,10 @@ public class BountifulBlocksCore {
 	 * なお、実績関連の処理はつてと様の豆腐Craft
 	 * 及びShift様のSextiarySector
 	 * を参考にさせていただきました。
+	 * 
+	 * 村人関連の処理と、そのコメントアウトは
+	 * ModdingWikiのものを引用いたしました。
+	 * 更に、つてと様の豆腐Craftを参考に一部修正を行いました
 	 * */
 	
 	 public static final String resourceDomain = "bountifulmod:";
@@ -60,7 +75,26 @@ public class BountifulBlocksCore {
 	  public static Item itemOpiumPoppyPlant;//全体
 	  public static Item itemOpiumPoppy;//使用部分
 	  public static Item itemOpiumPoppyPowder;//粉
+	  
+	  public static Block blockCannabisContainer;//圧縮ブロック
+	  public static Block blockOpiumPoppyContainer;//圧縮ブロック
+	  
 
+		public static Item bonsaiManEgg;//盆栽マンのスポーンエッグ。デバッグ用に近いが一応残す
+	  
+	  //クリエイティブタブ
+	  public static final CreativeTabs tabsMaya = new CreativeTabMaya("Maya");
+	  //村人。
+	  public static VillagerMaya villager;
+	  public static int mayaVillagerProfession = 5;
+	
+	  //プロキシ。Wikiでの登録手法では上手くいかなかったためきっちり登録した
+	  @SidedProxy(clientSide = "eryngii.bountifulblocks.ClientProxy", 
+						  serverSide = "eryngii.bountifulblocks.CommonProxy")
+	  public static CommonProxy proxy;
+	  public static ClientProxy clientproxy;
+	    
+	    
 	  @Mod.EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
 	{
@@ -107,22 +141,22 @@ public class BountifulBlocksCore {
 			GameRegistry.registerBlock(blockCannabis, "blockCannabis");
 			
 			itemCannabisPlant = new Item()
-					.setCreativeTab(CreativeTabs.tabMaterials)/*クリエイティブのタブ*/
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemCannabisPlant")/*システム名の登録*/
 					.setTextureName("bountifulmod:cannabis_plant");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisPlant, "itemCannabisPlant");
 			
 			//引数は左から満腹度回復量、腹持ち、オオカミに食べさせられるかどうか
 			itemCannabisLeaf = (new ItemCannabisLeaf(1, 1.0F, false))
-					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemCannabisLeaf")/*システム名の登録*/
 					.setTextureName("bountifulmod:cannabis_leaf");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisLeaf, "itemCannabisLeaf");
 			
 			itemCannabisPowder = (new ItemCannabisPowder(1, 1.0F, false))
-					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemCannabisPowder")/*システム名の登録*/
-					.setTextureName("bountifulmod:cannabis_powder");/*テクスチャの指定*/
+					.setTextureName("bountifulmod:cannabis_powder")/*テクスチャの指定*/;
 			GameRegistry.registerItem(itemCannabisPowder, "itemCannabisPowder");
 			
 			
@@ -130,24 +164,40 @@ public class BountifulBlocksCore {
 			GameRegistry.registerBlock(blockOpiumPoppy, "blockOpiumPoppy");
 			
 			itemOpiumPoppyPlant = new Item()
-					.setCreativeTab(CreativeTabs.tabMaterials)/*クリエイティブのタブ*/
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemOpiumPoppyPlant")/*システム名の登録*/
 					.setTextureName("bountifulmod:opoppy_plant");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemOpiumPoppyPlant, "itemOpiumPoppyPlant");
 			
 			itemOpiumPoppy = (new ItemOPoppy(1, 1.0F, false))
-					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemOpiumPoppy")/*システム名の登録*/
 					.setTextureName("bountifulmod:opoppy");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemOpiumPoppy, "itemOpiumPoppy");
 			
 
 			itemOpiumPoppyPowder = (new ItemOPoppyPowder(1, 1.0F, false))
-					.setCreativeTab(CreativeTabs.tabFood)/*クリエイティブのタブ*/
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemOpiumPoppyPowder")/*システム名の登録*/
 					.setTextureName("bountifulmod:opoppy_powder");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemOpiumPoppyPowder, "itemOpiumPoppyPowder");
 			
+			
+			blockCannabisContainer = new CannabisContainerBlock();
+			GameRegistry.registerBlock(blockCannabisContainer, "blockCannabisContainer");
+			
+			blockOpiumPoppyContainer = new OpiumPoppyContainerBlock();
+			GameRegistry.registerBlock(blockOpiumPoppyContainer, "blockOpiumPoppyContainer");
+			
+			bonsaiManEgg = new ItemBonsaiManEgg(Color.BLACK.getRGB(), Color.GREEN.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(BountifulBlocksCore.tabsMaya)
+					//システム名の登録
+					.setUnlocalizedName("BonsaimanEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(bonsaiManEgg, "bonsaiManEgg");
 			
 			/*
 			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
@@ -158,15 +208,56 @@ public class BountifulBlocksCore {
 		*/
 			//実績の登録
 			MayaAchievements.initAchievements();
+			
 }
-	  @Mod.EventHandler
+	    
+		
+	  @EventHandler
 	  public void init(FMLInitializationEvent event){
+		  
+		  //盆栽マンの登録。スポーン地点を大量に登録しているが動くかどうかは不明
+		    EntityRegistry.registerModEntity(EntityBonsaiMan.class, "BonsaimanEntity", 0, this, 250, 1, false);
+	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.plains);
+	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.forest);
+	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.beach);
+	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desert);
+	        //Render設定
+	        if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
+			RenderingRegistry.registerEntityRenderingHandler(EntityBonsaiMan.class, new RenderBonsaiMan());
 
-		  	//レシピ登録
-		  RecipeRegister.init();
-    
+		  villager = new VillagerMaya();
+		  
+			/*
+			 * 村人の職業IDを登録しています
+			 */
+	                VillagerRegistry.instance().registerVillagerId(mayaVillagerProfession);
+	 
+			/*
+			 * 村人を登録しています
+			 */
+			VillagerRegistry.instance().registerVillageTradeHandler(mayaVillagerProfession, villager);
+	 
+			/*
+			 * 村人の家を登録しています
+			 */
+			VillagerRegistry.instance().registerVillageCreationHandler(new VillageCreationHandleMayaHouse());
+	                /*
+	                 * #Forge1.7.10-10.13.0.1230現在
+	                 * 通常は、registerStructureで建物のStructureStartを継承したクラスを登録した後
+	                 * func_143031_aで建物のStructureComponentを継承したクラスを登録する必要がありますが
+	                 * 今回は、両方でComponentVillageSampleHouseを登録しています
+	                 */
+	                MapGenStructureIO.registerStructure(ComponentVillageMayaHouse.class, "VCHSH");
+	                MapGenStructureIO.func_143031_a(ComponentVillageMayaHouse.class, "VCHSHP");
+	 
+	               proxy.init();
+	                
+
+	    		  	//レシピ登録
+	    		  RecipeRegister.init();
+
+	    	        }
 	     }
-
 
 	        
 	    

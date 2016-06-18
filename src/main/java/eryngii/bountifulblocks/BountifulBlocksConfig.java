@@ -9,6 +9,8 @@ public class BountifulBlocksConfig {
 	static boolean is1_8Mode;
 	static boolean is1_9Mode;
 	 public static boolean achievement = true;
+	 
+	 public static int professionIdMayaMer = 1211;
 
 	public static void preLoad(File file){
 		Configuration cfg = new Configuration(file);

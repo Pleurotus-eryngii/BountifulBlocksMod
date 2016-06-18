@@ -8,7 +8,6 @@ import net.minecraft.block.Block;
 import net.minecraft.block.BlockBush;
 import net.minecraft.block.IGrowable;
 import net.minecraft.client.renderer.texture.IIconRegister;
-import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.init.Blocks;
 import net.minecraft.item.Item;
 import net.minecraft.util.IIcon;
@@ -24,7 +23,7 @@ public class CannabisBlock extends BlockBush implements IGrowable {
         super();
         setBlockTextureName("bountifulmod:cannabis_stage_0");
         setBlockName("blockCannabis");
-        setCreativeTab(CreativeTabs.tabMaterials);
+        setCreativeTab(BountifulBlocksCore.tabsMaya);
         // たまに成長するようにする。
         setTickRandomly(true);
         setStepSound(soundTypeGrass);
