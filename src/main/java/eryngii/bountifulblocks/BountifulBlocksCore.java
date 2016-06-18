@@ -191,13 +191,13 @@ public class BountifulBlocksCore {
 			
 			bonsaiManEgg = new ItemBonsaiManEgg(Color.BLACK.getRGB(), Color.GREEN.getRGB())
 					//クリエイティブタブの登録
-					.setCreativeTab(CreativeTabs.tabMaterials)
+					.setCreativeTab(BountifulBlocksCore.tabsMaya)
 					//システム名の登録
 					.setUnlocalizedName("BonsaimanEgg")
 					//テクスチャ名の登録
 					.setTextureName("spawn_egg");
 					//GameRegistryへの登録
-					GameRegistry.registerItem(bonsaiManEgg, "aluminiumEgg");
+					GameRegistry.registerItem(bonsaiManEgg, "bonsaiManEgg");
 			
 			/*
 			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
