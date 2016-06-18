@@ -202,6 +202,11 @@ public class RecipeRegister {
 				new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
 				);
 		     
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPlant,9),
+				new ItemStack(BountifulBlocksCore.blockCannabisContainer,1)
+				);
+		
 		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis),
 		    	"##",
 		    	"##",
@@ -213,15 +218,28 @@ public class RecipeRegister {
 				"@@",
 				'@', new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
 				);
-		     
-		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPowder,2),
-				new ItemStack(BountifulBlocksCore.itemCannabisLeaf,1)
+		
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabisContainer,3),
+				"@@@",
+				"@@@",
+				"@@@",
+				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
 				);
 		     
+		
+		 GameRegistry.addSmelting(BountifulBlocksCore.itemCannabisLeaf,new ItemStack(BountifulBlocksCore.itemCannabisPowder),0.1f);
+			
+
 		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppy,4),
 				new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
 				);
 		     
+		
+		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,9),
+				new ItemStack(BountifulBlocksCore.blockOpiumPoppyContainer,1)
+				);
+		
+		
 		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy),
 				"#",
 				"#",
@@ -233,9 +251,18 @@ public class RecipeRegister {
 				"@@",
 				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
 				);
-		     
-		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder,2),
-				new ItemStack(BountifulBlocksCore.itemOpiumPoppy,1)
-		  	);
+		
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppyContainer,3),
+				"@@@",
+				"@@@",
+				"@@",
+				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
+				);
+		
+
+		
+		 GameRegistry.addSmelting(BountifulBlocksCore.itemOpiumPoppy,new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder),0.1f);
+		
+
 		     }
 }
