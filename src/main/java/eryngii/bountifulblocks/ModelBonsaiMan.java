@@ -124,7 +124,7 @@ public class ModelBonsaiMan  extends ModelBase {
       {
         //ここから下のあらゆる処理は各種動作。ModelBipedという、人型のEntityによく使われる動作をそのまま持ってきている。
     	//植木鉢が連動して動くよう、関節位置を合わせて腕の動きと同じものを登録
-    	//頭の植木は動かなくても問題なさそうなので現在設定せず。今後調整する
+       //頭の植木も頭と連動して動く。
     	  super.render(entity, f, f1, f2, f3, f4, f5);
         setRotationAngles(f, f1, f2, f3, f4, f5, entity);
         head.render(f5);

@@ -85,8 +85,8 @@ public class BountifulBlocksCore {
 	  //クリエイティブタブ
 	  public static final CreativeTabs tabsMaya = new CreativeTabMaya("Maya");
 	  //村人。
-	  public static VillagerMaya villager;
-	  public static int mayaVillagerProfession = 5;
+	  public static VillagerMaya villagerMaya;
+	  public static int mayaVillagerProfession = 114514;
 	
 	  //プロキシ。Wikiでの登録手法では上手くいかなかったためきっちり登録した
 	  @SidedProxy(clientSide = "eryngii.bountifulblocks.ClientProxy", 
@@ -225,7 +225,7 @@ public class BountifulBlocksCore {
 	        if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			RenderingRegistry.registerEntityRenderingHandler(EntityBonsaiMan.class, new RenderBonsaiMan());
 
-		  villager = new VillagerMaya();
+		  villagerMaya = new VillagerMaya();
 		  
 			/*
 			 * 村人の職業IDを登録しています
@@ -235,7 +235,7 @@ public class BountifulBlocksCore {
 			/*
 			 * 村人を登録しています
 			 */
-			VillagerRegistry.instance().registerVillageTradeHandler(mayaVillagerProfession, villager);
+			VillagerRegistry.instance().registerVillageTradeHandler(mayaVillagerProfession, villagerMaya);
 	 
 			/*
 			 * 村人の家を登録しています
