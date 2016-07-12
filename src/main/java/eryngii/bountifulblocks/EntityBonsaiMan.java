@@ -10,8 +10,6 @@ import net.minecraft.entity.ai.EntityAINearestAttackableTarget;
 import net.minecraft.entity.ai.EntityAIWander;
 import net.minecraft.entity.ai.EntityAIWatchClosest;
 import net.minecraft.entity.monster.EntityMob;
-import net.minecraft.entity.passive.EntityPig;
-import net.minecraft.entity.passive.EntityVillager;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.world.World;
@@ -39,8 +37,6 @@ public class EntityBonsaiMan extends EntityMob{
     this.tasks.addTask(6, new EntityAILookIdle(this));
     this.targetTasks.addTask(1, new EntityAIHurtByTarget(this, false));
     this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPlayer.class, 1, true));
-    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityVillager.class, 1, true));
-    this.targetTasks.addTask(2, new EntityAINearestAttackableTarget(this, EntityPig.class, 1, true));
 	    }
 	 
 		@Override
@@ -61,11 +57,13 @@ public class EntityBonsaiMan extends EntityMob{
 	    {
 	    	//歩く音
 		this.playSound("mob.zombie.step", 0.15F, 1.0F);
+
 	    }
 	 
 	    /**
 	     * Returns the sound this mob makes when it is hurt.
 	     */
+	    @Override
 	    protected String getHurtSound()
 	    {
 	        return "";
@@ -74,12 +72,23 @@ public class EntityBonsaiMan extends EntityMob{
 	    /**
 	     * Returns the sound this mob makes on death.
 	     */
+	    @Override
 	    protected String getDeathSound()
 	    {
 	        return "";
 	    }
 	    
+
 	    
+	    @Override
+	    public String getLivingSound()
+	    {
+
+	        return "bountifulmod:bonsailiving";
+
+	        
+	    }
+
 	    
 	    @Override
 	     public EnumCreatureAttribute getCreatureAttribute() { return EnumCreatureAttribute.UNDEFINED; }

@@ -204,7 +204,7 @@ public class RecipeRegister {
 		     
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPlant,9),
-				new ItemStack(BountifulBlocksCore.blockCannabisContainer,1)
+				new ItemStack(BountifulBlocksCore.blockCannabisContainer,1,0)
 				);
 		
 		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis),
@@ -219,11 +219,11 @@ public class RecipeRegister {
 				'@', new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
 				);
 		
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabisContainer,3),
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabisContainer,3,0),
 				"@@@",
 				"@@@",
 				"@@@",
-				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
+				'@', new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
 				);
 		     
 		
@@ -236,7 +236,7 @@ public class RecipeRegister {
 		     
 		
 		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,9),
-				new ItemStack(BountifulBlocksCore.blockOpiumPoppyContainer,1)
+				new ItemStack(BountifulBlocksCore.blockCannabisContainer,1,1)
 				);
 		
 		
@@ -252,10 +252,10 @@ public class RecipeRegister {
 				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
 				);
 		
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppyContainer,3),
+		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabisContainer,3,1),
 				"@@@",
 				"@@@",
-				"@@",
+				"@@@",
 				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
 				);
 		
