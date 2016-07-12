@@ -10,5 +10,19 @@
         "stream":true
       }
     ]
+  },
+  "bonsailiving":{
+    "category":"player",
+    "sounds":[
+      {
+        "name": "toccatafugebonsai",
+        "weight": 1,
+        "volume": 1,
+        "pitch":1,
+        "stream":true
+      }
+    ]
   }
+  
+    
 }
