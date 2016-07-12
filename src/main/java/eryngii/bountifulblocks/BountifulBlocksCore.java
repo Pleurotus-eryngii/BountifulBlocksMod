@@ -9,23 +9,16 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
-import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
-import cpw.mods.fml.common.eventhandler.SubscribeEvent;
-import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
-import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
-import net.minecraft.potion.Potion;
-import net.minecraft.potion.PotionEffect;
-import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 
@@ -49,11 +42,6 @@ public class BountifulBlocksCore {
 	 * 村人関連の処理と、そのコメントアウトは
 	 * ModdingWikiのものを引用いたしました。
 	 * 更に、つてと様の豆腐Craftを参考に一部修正を行いました
-	 * 
-	 * Tick関連の処理に関しては、はやぶさ様の提案を参考に、
-	 * regin666様のWikiをもとに行いました
-	 * Tick関連の処理における時間の処理は、はやぶさ様の
-	 * ShowPlayingTimeModを参考にさせていただきました。
 	 * */
 	
 	 public static final String resourceDomain = "bountifulmod:";
@@ -88,15 +76,11 @@ public class BountifulBlocksCore {
 	  public static Item itemOpiumPoppy;//使用部分
 	  public static Item itemOpiumPoppyPowder;//粉
 	  
-	  public static Block blockFreshCannabis;//乾燥前
-	  public static Block blockFreshOpiumPoppy;//乾燥前
-	  public static Block blockCannabisContainer;//圧縮ブロック.2つをメタデータで処理
+	  public static Block blockCannabisContainer;//圧縮ブロック
+	  public static Block blockOpiumPoppyContainer;//圧縮ブロック
 	  
 
 		public static Item bonsaiManEgg;//盆栽マンのスポーンエッグ。デバッグ用に近いが一応残す
-		public static Item superBonsaiManEgg;
-		
-		public boolean Flag=false;//1回だけ実行する判定用
 	  
 	  //クリエイティブタブ
 	  public static final CreativeTabs tabsMaya = new CreativeTabMaya("Maya");
@@ -128,10 +112,6 @@ public class BountifulBlocksCore {
 
 			blockCoarseDirt = new CoarseDirtBlock();
 			GameRegistry.registerBlock(blockCoarseDirt, ItemCoarseDirtBlock.class, "blockCoarseDirt");
-			
-
-			
-
 
 			//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
 			blockFenceX = new FenceBlockX("", Material.wood);
@@ -204,15 +184,10 @@ public class BountifulBlocksCore {
 			
 			
 			blockCannabisContainer = new CannabisContainerBlock();
-			GameRegistry.registerBlock(blockCannabisContainer, ItemCannabisContainerBlock.class, "blockCannabisContainer");
+			GameRegistry.registerBlock(blockCannabisContainer, "blockCannabisContainer");
 			
-			
-			blockFreshCannabis = new FreshCannabisBlock();
-			GameRegistry.registerBlock(blockFreshCannabis, "blockFreshCannabis");
-			
-			blockFreshOpiumPoppy = new FreshOpiumPoppyBlock();
-			GameRegistry.registerBlock(blockFreshOpiumPoppy, "blockFreshOpiumPoppy");
-			
+			blockOpiumPoppyContainer = new OpiumPoppyContainerBlock();
+			GameRegistry.registerBlock(blockOpiumPoppyContainer, "blockOpiumPoppyContainer");
 			
 			bonsaiManEgg = new ItemBonsaiManEgg(Color.BLACK.getRGB(), Color.GREEN.getRGB())
 					//クリエイティブタブの登録
@@ -223,16 +198,6 @@ public class BountifulBlocksCore {
 					.setTextureName("spawn_egg");
 					//GameRegistryへの登録
 					GameRegistry.registerItem(bonsaiManEgg, "bonsaiManEgg");
-					
-			superBonsaiManEgg = new ItemSuperBonsaiManEgg(Color.BLACK.getRGB(), Color.RED.getRGB())
-					//クリエイティブタブの登録
-					.setCreativeTab(BountifulBlocksCore.tabsMaya)
-					//システム名の登録
-					.setUnlocalizedName("SuperBonsaimanEgg")
-					//テクスチャ名の登録
-					.setTextureName("spawn_egg");
-					//GameRegistryへの登録
-					GameRegistry.registerItem(superBonsaiManEgg, "SuperBonsaiManEgg");
 			
 			/*
 			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
@@ -245,42 +210,20 @@ public class BountifulBlocksCore {
 			MayaAchievements.initAchievements();
 			
 }
-	  //開始時の時間を代入する
-	  public static long startedtime;
-
-		@EventHandler
-		public void postInit(FMLPostInitializationEvent event) {
-			//postInitで起動時を取得
-			//この実装は安全なのか…？
-			long i = System.currentTimeMillis();
-			System.out.println(i);
-			startedtime = i;
-			System.out.println(startedtime);
-	}
 	    
 		
-	  @Mod.EventHandler
+	  @EventHandler
 	  public void init(FMLInitializationEvent event){
-			/*
-			 * Eventの登録
-			 */
-			FMLCommonHandler.instance().bus().register(this);
-			
+		  
 		  //盆栽マンの登録。スポーン地点を大量に登録しているが動くかどうかは不明
 		    EntityRegistry.registerModEntity(EntityBonsaiMan.class, "BonsaimanEntity", 0, this, 250, 1, false);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.plains);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.forest);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.beach);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desert);
-	        
-	        
-			 EntityRegistry.registerModEntity(EntitySuperBonsaiMan.class, "SuperBonsaimanEntity", 0, this, 250, 1, false);
-		     EntityRegistry.addSpawn(EntitySuperBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.savanna);
 	        //Render設定
 	        if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			RenderingRegistry.registerEntityRenderingHandler(EntityBonsaiMan.class, new RenderBonsaiMan());
-			RenderingRegistry.registerEntityRenderingHandler(EntitySuperBonsaiMan.class, new RenderBonsaiMan());
-	        }
 
 		  villagerMaya = new VillagerMaya();
 		  
@@ -314,95 +257,11 @@ public class BountifulBlocksCore {
 	    		  RecipeRegister.init();
 
 	    	        }
-	  
-
-		@SubscribeEvent
-		public void onServerTick(TickEvent.ServerTickEvent event)
-		{
-			/*
-			 * ここにServerに関するtick処理を書く.
-			 */
-		}
-
-		@SubscribeEvent
-		public void onClientTick(TickEvent.ClientTickEvent event)
-		{
-			/*
-			 * ここにClientに関するtick処理を書く.
-			 */
-		}
-		
-
-		@SubscribeEvent
-		public void onWorldTick(TickEvent.WorldTickEvent event)
-		{
-			/*
-			 * ここにWorldに関するtick処理を書く.
-			 * event.worldでWorldのインスタンスを取得できる.
-			 */
-
-
-			}
-		
-
-		@SubscribeEvent
-		public void onPlayerTick(TickEvent.PlayerTickEvent event)
-		{
-			/*
-			 * ここにPlayerに関するtick処理を書く.
-			 * event.playerでEntityPlayerのインスタンスを取得できる.
-			 */
-			//フラッシュバックの設定に用いる
-			long nowtime = System.currentTimeMillis();//現在時間を取得
-	    	long calculation = (nowtime - ItemCannabisLeaf.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
-	    	
-	    	if(!Flag){
-	    	if(ItemCannabisLeaf.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
-	    	if(calculation == 1800)//1800だった場合(=30分)
-    		{
-	    		
-	    		//Worldのインスタンス取得。
-	    		World world = Minecraft.getMinecraft().theWorld;
-
-	    		//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
-	    		int potionID = Potion.confusion.id;
-	    		int duration = 60 * 20;
-	    		int amplifier = 2;
-
-	    		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
-	    		
-	    		//効果付与
-	    		event.player.addPotionEffect(Effect);
-	             
-	    		world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
-	             
-	    		
-	    		//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
-	    		Flag=true;
-	    			}
-	    		}
-	    	}
-	    	if(calculation == 183){Flag= false;}
-	    	//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
-	    	}
-	    	
-			
-			
-		
-
-		@SubscribeEvent
-		public void onRenderTick(TickEvent.RenderTickEvent event)
-		{
-			/*
-			 * ここにRenderに関するtick処理を書く.
-			 * event.renderTickTimeでtick timeを取得できる.
-			 */
-	}
 	     }
 
 	        
 	    
 
-
+}
 
 

@@ -43,7 +43,7 @@ public class FenceBlockX extends BlockFence
 	@SideOnly(Side.CLIENT)
 	public IIcon getIcon(int side, int meta) {
 		
-        return iicon[meta];
+		return iicon[meta];
 		
 
 	}

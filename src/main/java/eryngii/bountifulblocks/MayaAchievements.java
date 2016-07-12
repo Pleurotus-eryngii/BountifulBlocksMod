@@ -17,7 +17,6 @@ public class MayaAchievements {
     public static Achievement Poppy;
     public static Achievement NotFlower;
     public static Achievement Deeply;
-    public static Achievement BoundUntil;
 
     public static void initAchievements() {
 
@@ -30,10 +29,6 @@ public class MayaAchievements {
         Deeply = new MayaAchievementCrafting("Deeply", 3, 3, new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder), NotFlower,core).registerStat();
         AchievementPage.registerAchievementPage(new AchievementPageBase("achievement.bountifulmod", core));
 
-    }
-    
-    public static void loadAchievements(){
-    	BoundUntil = new Achievement("achievement.cfm_install", "cfm_install", 2, 2, new ItemStack(BountifulBlocksCore.blockCannabisContainer), null).setSpecial();
     }
 
 }
