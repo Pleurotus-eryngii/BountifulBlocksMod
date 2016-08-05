@@ -10,5 +10,71 @@
         "stream":true
       }
     ]
+  },
+  "bonsailiving":{
+    "category":"player",
+    "sounds":[
+      {
+        "name": "toccatafugebonsai",
+        "weight": 1,
+        "volume": 1,
+        "pitch":1,
+        "stream":true
+      }
+    ]
+  },
+  "mob.polarbear.idle":{
+    "category":"player",
+    "sounds":[
+	"polarbear/polar_idle1",
+	"polarbear/polar_idle2",
+	"polarbear/polar_idle3",
+	"polarbear/polar_idle4"
+    ]
+  },
+    "mob.polarbear.step":{
+    "category":"player",
+    "sounds":[
+	"polarbear/polar_step1",
+	"polarbear/polar_step2",
+	"polarbear/polar_step3",
+	"polarbear/polar_step4"
+    ]
+  },
+    "mob.polarbear.hurt":{
+    "category":"player",
+    "sounds":[
+	"polarbear/polar_hurt1",
+	"polarbear/polar_hurt2",
+	"polarbear/polar_hurt3",
+	"polarbear/polar_hurt4"
+    ]
+  },
+    "mob.polarbear.death":{
+    "category":"player",
+    "sounds":[
+	"polarbear/polar_death1",
+	"polarbear/polar_death2",
+	"polarbear/polar_death3"
+    ]
+  },
+    "mob.rabbit.idle":{
+    "category":"player",
+    "sounds":[
+	"rabbit/rabbit_idle1",
+	"rabbit/rabbit_idle2",
+	"rabbit/rabbit_idle3",
+	"rabbit/rabbit_idle4"
+    ]
+  },
+     "mob.rabbit.hurt":{
+    "category":"player",
+    "sounds":[
+	"rabbit/rabbit_hurt1",
+	"rabbit/rabbit_hurt2",
+	"rabbit/rabbit_hurt3",
+	"rabbit/rabbit_hurt4"
+    ]
   }
+    
 }

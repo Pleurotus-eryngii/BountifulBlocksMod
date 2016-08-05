@@ -15,7 +15,7 @@ import net.minecraft.util.IIcon;
 public class DioriteBlock extends Block
 {
 	//テクスチャや内部名称の際に使用する数値を設定
-	private IIcon[] iicon = new IIcon[14];
+	private IIcon[] iicon = new IIcon[16];
 
 
     public DioriteBlock() {
@@ -28,7 +28,7 @@ public class DioriteBlock extends Block
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void registerBlockIcons(IIconRegister register) {
-		for (int i = 0; i < 14; i ++) {
+		for (int i = 0; i < 16; i ++) {
 			this.iicon[i] = register.registerIcon(this.getTextureName() + "_" + i);
 		}
 	}
@@ -42,7 +42,7 @@ public class DioriteBlock extends Block
 	@Override
 	@SideOnly(Side.CLIENT)
 	public void getSubBlocks(Item item, CreativeTabs creativeTab, List list) {
-		for (int i = 0; i < 14; i ++) {
+		for (int i = 0; i < 16; i ++) {
 			System.out.println("両方！");
 			list.add(new ItemStack(item, 1, i));
 		}

@@ -17,8 +17,11 @@ public class ItemCannabisLeaf extends ItemFood{
 		this.setAlwaysEdible();	//お腹すいてなくても食べれる。
 	
 	}
-	
+	public static boolean depStart=false;
+	public static long depstartedtime;
 
+
+	
 	@Override
 	public ItemStack onEaten(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
@@ -27,6 +30,7 @@ public class ItemCannabisLeaf extends ItemFood{
 		if (!par3EntityPlayer.capabilities.isCreativeMode) {
 			--par1ItemStack.stackSize;
 		}
+		
 		/*この場合個別に登録しているが、PotionEffectの処理の際には、
 		*同じdurationやamplifierを流用できるはず。
 		*今回は調整しやすくするために分けてみた
@@ -37,17 +41,17 @@ public class ItemCannabisLeaf extends ItemFood{
 		int potionID4 = Potion.digSpeed.id;
 		int potionID5 = Potion.moveSpeed.id;
 		//Potionの効果時間（【20tick ≒ 1秒】なので*20）
-		int duration = 10 * 20;
-		int duration2 = 60 * 20;
-		int duration3 = 60 * 20;
-		int duration4 = 60 * 20;
-		int duration5 = 60 * 20;
+		int duration = 30 * 20;
+		int duration2 = 30 * 20;
+		int duration3 = 30 * 20;
+		int duration4 = 30 * 20;
+		int duration5 = 30 * 20;
 		//PotionのLv(実際はこのレベルに+1される）
-		int amplifier = 2;
-		int amplifier2 = 2;
-		int amplifier3 = 2;
-		int amplifier4 = 2;
-		int amplifier5 = 2;
+		int amplifier = 1;
+		int amplifier2 = 1;
+		int amplifier3 = 1;
+		int amplifier4 = 1;
+		int amplifier5 = 1;
 
 		//PotionEffectの設定
 		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
@@ -71,6 +75,11 @@ public class ItemCannabisLeaf extends ItemFood{
 
     	 //独自BGM。エンダーマンのStare(見つめ)音とクリーパーの恐怖のSh音をMix
     	 par2World.playSoundAtEntity(par3EntityPlayer, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+    	 
+    	 
+    	 long i = System.currentTimeMillis();
+    	 depstartedtime = i;//フラッシュバック用。使用時の時間を取得して代入
+    	 depStart=true;//保険。これがTrueのときのみ発動する。
      }
          //お遊び。任意のセリフに変更してかまわない
          //このままだとクライアントとサーバが両方処理して2回表示されてしまうので、ifでクライアントのみに絞る
@@ -84,6 +93,6 @@ public class ItemCannabisLeaf extends ItemFood{
         return par1ItemStack;
 }
 
-
+	
 }
 

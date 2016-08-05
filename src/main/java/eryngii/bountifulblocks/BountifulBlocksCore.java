@@ -9,16 +9,24 @@ import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;
 import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
+import cpw.mods.fml.common.event.FMLPostInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
+import cpw.mods.fml.common.eventhandler.SubscribeEvent;
+import cpw.mods.fml.common.gameevent.TickEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
 import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
+import net.minecraft.client.Minecraft;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
+import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
+import net.minecraft.potion.Potion;
+import net.minecraft.potion.PotionEffect;
+import net.minecraft.world.World;
 import net.minecraft.world.biome.BiomeGenBase;
 import net.minecraft.world.gen.structure.MapGenStructureIO;
 
@@ -42,6 +50,11 @@ public class BountifulBlocksCore {
 	 * 村人関連の処理と、そのコメントアウトは
 	 * ModdingWikiのものを引用いたしました。
 	 * 更に、つてと様の豆腐Craftを参考に一部修正を行いました
+	 * 
+	 * Tick関連の処理に関しては、はやぶさ様の提案を参考に、
+	 * regin666様のWikiをもとに行いました
+	 * Tick関連の処理における時間の処理は、はやぶさ様の
+	 * ShowPlayingTimeModを参考にさせていただきました。
 	 * */
 	
 	 public static final String resourceDomain = "bountifulmod:";
@@ -62,25 +75,41 @@ public class BountifulBlocksCore {
 	  public static Block blockSmoothRedSandStone;
 	  public static Block blockChiseledRedSandStone;
 	  public static Block blockPurpurPillar;
+	  public static Block blockBone;
 	  
 	  //明かり類。今回はシーランタンのみ
 	  public static Block blockSeaLantern;
+	  //マグマブロック
+	  public static Block blockMagma;
 	  
 	  //以下MayaCraft
 	  public static Block blockCannabis;//苗
 	  public static Item itemCannabisPlant;//全体
 	  public static Item itemCannabisLeaf;//葉
+	  public static Item itemDryCannabisLeaf;//乾燥物
 	  public static Item itemCannabisPowder;//粉
 	  public static Block blockOpiumPoppy;//苗
 	  public static Item itemOpiumPoppyPlant;//全体
 	  public static Item itemOpiumPoppy;//使用部分
+	  public static Item itemDryOpiumPoppy;//乾燥物
 	  public static Item itemOpiumPoppyPowder;//粉
 	  
-	  public static Block blockCannabisContainer;//圧縮ブロック
-	  public static Block blockOpiumPoppyContainer;//圧縮ブロック
+	  public static Block blockFreshCannabis;//乾燥前
+	  public static Block blockFreshOpiumPoppy;//乾燥前
+	  public static Block blockCannabisContainer;//圧縮ブロック.2つをメタデータで処理
 	  
 
 		public static Item bonsaiManEgg;//盆栽マンのスポーンエッグ。デバッグ用に近いが一応残す
+		public static Item superBonsaiManEgg;
+		public static Item rabbitEgg;
+		public static Item polarBearEgg;
+		
+		public boolean Flag=false;//1回だけ実行する判定用。複数薬物使用対策で一応個別に分ける
+		public boolean Flag2=false;//1回だけ実行する判定用
+		public boolean Flag3=false;//1回だけ実行する判定用
+		public boolean Flag4=false;//1回だけ実行する判定用
+		public boolean Flag5=false;//1回だけ実行する判定用
+		public boolean Flag6=false;//1回だけ実行する判定用
 	  
 	  //クリエイティブタブ
 	  public static final CreativeTabs tabsMaya = new CreativeTabMaya("Maya");
@@ -112,6 +141,10 @@ public class BountifulBlocksCore {
 
 			blockCoarseDirt = new CoarseDirtBlock();
 			GameRegistry.registerBlock(blockCoarseDirt, ItemCoarseDirtBlock.class, "blockCoarseDirt");
+			
+
+			
+
 
 			//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
 			blockFenceX = new FenceBlockX("", Material.wood);
@@ -131,11 +164,17 @@ public class BountifulBlocksCore {
 			blockPurpurPillar = new PurpurPillarBlock();
 			GameRegistry.registerBlock(blockPurpurPillar, "blockPurpurPillar");
 			
+			blockBone = new BoneBlock();
+			GameRegistry.registerBlock(blockBone, "blockBone");
+			
 			blockBarrier = new BarrierBlock();
 			GameRegistry.registerBlock(blockBarrier, "blockBarrier");
 			
 			blockSeaLantern = new SeaLanternBlock();
 			GameRegistry.registerBlock(blockSeaLantern, "blockSeaLantern");
+			
+			blockMagma = new MagmaBlock();
+			GameRegistry.registerBlock(blockMagma, "blockMagma");
 			
 			blockCannabis = new CannabisBlock();
 			GameRegistry.registerBlock(blockCannabis, "blockCannabis");
@@ -152,6 +191,12 @@ public class BountifulBlocksCore {
 					.setUnlocalizedName("itemCannabisLeaf")/*システム名の登録*/
 					.setTextureName("bountifulmod:cannabis_leaf");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemCannabisLeaf, "itemCannabisLeaf");
+			
+			itemDryCannabisLeaf = (new ItemDryCannabisLeaf(1, 1.0F, false))
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemDryCannabisLeaf")/*システム名の登録*/
+					.setTextureName("bountifulmod:dry_cannabis_leaf");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemDryCannabisLeaf, "itemDryCannabisLeaf");
 			
 			itemCannabisPowder = (new ItemCannabisPowder(1, 1.0F, false))
 					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
@@ -175,7 +220,12 @@ public class BountifulBlocksCore {
 					.setTextureName("bountifulmod:opoppy");/*テクスチャの指定*/
 			GameRegistry.registerItem(itemOpiumPoppy, "itemOpiumPoppy");
 			
-
+			itemDryOpiumPoppy = (new ItemDryOPoppy(1, 1.0F, false))
+					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
+					.setUnlocalizedName("itemDryOpiumPoppy")/*システム名の登録*/
+					.setTextureName("bountifulmod:dry_opoppy");/*テクスチャの指定*/
+			GameRegistry.registerItem(itemDryOpiumPoppy, "itemDryOpiumPoppy");
+			
 			itemOpiumPoppyPowder = (new ItemOPoppyPowder(1, 1.0F, false))
 					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
 					.setUnlocalizedName("itemOpiumPoppyPowder")/*システム名の登録*/
@@ -184,10 +234,15 @@ public class BountifulBlocksCore {
 			
 			
 			blockCannabisContainer = new CannabisContainerBlock();
-			GameRegistry.registerBlock(blockCannabisContainer, "blockCannabisContainer");
+			GameRegistry.registerBlock(blockCannabisContainer, ItemCannabisContainerBlock.class, "blockCannabisContainer");
 			
-			blockOpiumPoppyContainer = new OpiumPoppyContainerBlock();
-			GameRegistry.registerBlock(blockOpiumPoppyContainer, "blockOpiumPoppyContainer");
+			
+			blockFreshCannabis = new FreshCannabisBlock();
+			GameRegistry.registerBlock(blockFreshCannabis, "blockFreshCannabis");
+			
+			blockFreshOpiumPoppy = new FreshOpiumPoppyBlock();
+			GameRegistry.registerBlock(blockFreshOpiumPoppy, "blockFreshOpiumPoppy");
+			
 			
 			bonsaiManEgg = new ItemBonsaiManEgg(Color.BLACK.getRGB(), Color.GREEN.getRGB())
 					//クリエイティブタブの登録
@@ -198,7 +253,42 @@ public class BountifulBlocksCore {
 					.setTextureName("spawn_egg");
 					//GameRegistryへの登録
 					GameRegistry.registerItem(bonsaiManEgg, "bonsaiManEgg");
+					
+			superBonsaiManEgg = new ItemSuperBonsaiManEgg(Color.BLACK.getRGB(), Color.RED.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(BountifulBlocksCore.tabsMaya)
+					//システム名の登録
+					.setUnlocalizedName("SuperBonsaimanEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(superBonsaiManEgg, "SuperBonsaiManEgg");
+					
+					
+					int intValueP = Integer.parseInt( "936c59",16);
+					Color rabbitPrimary = new Color( intValueP );
+					int intValueS = Integer.parseInt( "513830",16);
+					Color rabbitSecondary = new Color( intValueS );
+					
+			rabbitEgg = new ItemRabbitEgg(rabbitPrimary.getRGB() , rabbitSecondary.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(CreativeTabs.tabMisc)
+					//システム名の登録
+					.setUnlocalizedName("RabbitEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(rabbitEgg, "RabbitEgg");
 			
+			polarBearEgg = new ItemPolarBearEgg(Color.WHITE.getRGB(), Color.GRAY.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(CreativeTabs.tabMisc)
+					//システム名の登録
+					.setUnlocalizedName("PolarBearEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(polarBearEgg, "PolarBearEgg");
 			/*
 			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
 			if (BountifulBlocksConfig.achievement)
@@ -210,20 +300,51 @@ public class BountifulBlocksCore {
 			MayaAchievements.initAchievements();
 			
 }
+	  //開始時の時間を代入する
+	  public static long startedtime;
+
+		@EventHandler
+		public void postInit(FMLPostInitializationEvent event) {
+			//postInitで起動時を取得
+			//この実装は安全なのか…？
+			long i = System.currentTimeMillis();
+			System.out.println(i);
+			startedtime = i;
+			System.out.println(startedtime);
+	}
 	    
 		
-	  @EventHandler
+	  @Mod.EventHandler
 	  public void init(FMLInitializationEvent event){
-		  
+			/*
+			 * Eventの登録
+			 */
+			FMLCommonHandler.instance().bus().register(this);
+			
 		  //盆栽マンの登録。スポーン地点を大量に登録しているが動くかどうかは不明
 		    EntityRegistry.registerModEntity(EntityBonsaiMan.class, "BonsaimanEntity", 0, this, 250, 1, false);
+		    EntityRegistry.registerModEntity(EntitySuperBonsaiMan.class, "SuperBonsaimanEntity", 1, this, 250, 1, false);
+		    EntityRegistry.registerModEntity(EntityRabbit.class, "RabbitEntity", 2, this, 250, 1, false);
+		    EntityRegistry.registerModEntity(EntityPolarBear.class, "PolarBearEntity", 3, this, 250, 1, false);
+
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.plains);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.forest);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.beach);
 	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desert);
+	        
+	        
+			 
+		     EntityRegistry.addSpawn(EntitySuperBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.savanna);
+		     
+			 
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.plains);
 	        //Render設定
 	        if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
 			RenderingRegistry.registerEntityRenderingHandler(EntityBonsaiMan.class, new RenderBonsaiMan());
+			RenderingRegistry.registerEntityRenderingHandler(EntitySuperBonsaiMan.class, new RenderBonsaiMan());
+			RenderingRegistry.registerEntityRenderingHandler(EntityRabbit.class, new RenderRabbit());
+			RenderingRegistry.registerEntityRenderingHandler(EntityPolarBear.class, new RenderPolarBear());
+	        }
 
 		  villagerMaya = new VillagerMaya();
 		  
@@ -257,11 +378,256 @@ public class BountifulBlocksCore {
 	    		  RecipeRegister.init();
 
 	    	        }
+	  
+
+		@SubscribeEvent
+		public void onServerTick(TickEvent.ServerTickEvent event)
+		{
+			/*
+			 * ここにServerに関するtick処理を書く.
+			 */
+		}
+
+		@SubscribeEvent
+		public void onClientTick(TickEvent.ClientTickEvent event)
+		{
+			/*
+			 * ここにClientに関するtick処理を書く.
+			 */
+		}
+		
+
+		@SubscribeEvent
+		public void onWorldTick(TickEvent.WorldTickEvent event)
+		{
+			/*
+			 * ここにWorldに関するtick処理を書く.
+			 * event.worldでWorldのインスタンスを取得できる.
+			 */
+
+			EntityPlayer entP =  Minecraft.getMinecraft().thePlayer;//プレイヤーのインスタンス取得
+
+			}
+		
+
+		@SubscribeEvent
+		public void onPlayerTick(TickEvent.PlayerTickEvent event)
+		{
+			/*
+			 * ここにPlayerに関するtick処理を書く.
+			 * event.playerでEntityPlayerのインスタンスを取得できる.
+			 */
+			//フラッシュバックの設定に用いる
+			long nowtime = System.currentTimeMillis();//現在時間を取得
+	    	long calculation = (nowtime - ItemCannabisLeaf.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
+	    	
+	    	if(!Flag){
+	    	if(ItemCannabisLeaf.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
+	    	if(calculation == 900)//900だった場合(=15分)
+    		{
+	    		
+	    		//Worldのインスタンス取得。
+	    		World world = Minecraft.getMinecraft().theWorld;
+
+	    		//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
+	    		int potionID = Potion.confusion.id;
+	    		int duration = 120 * 20;
+	    		int amplifier = 2;
+
+	    		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
+	    		
+	    		//効果付与
+	    		event.player.addPotionEffect(Effect);
+	             
+	    		world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+	             
+	    		
+	    		//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
+	    		Flag=true;
+	    			}
+	    		}
+	    	
+	    	if(calculation == 903){Flag= false;}
+	    	//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
+	    	}
+	    	
+	    //-------------乾燥葉---------------
+	    	long calculation2 = (nowtime - ItemDryCannabisLeaf.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
+    	
+	    	if(!Flag2){
+	    	if(ItemDryCannabisLeaf.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
+	    	if(calculation2 == 900)//900だった場合(=15分)
+	    	{
+    		
+	    		//Worldのインスタンス取得。
+	    		World world = Minecraft.getMinecraft().theWorld;
+
+	    		//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
+	    		int potionID = Potion.confusion.id;
+	    		int duration = 120 * 20;
+	    		int amplifier = 2;
+
+	    		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
+    		
+	    		//効果付与
+	    		event.player.addPotionEffect(Effect);
+             
+	    		world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+             
+    		
+	    		//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
+	    		Flag2=true;
+    			}
+    			}
+	    	}
+	    	if(calculation2 == 903){Flag2= false;}
+	    	//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
+    		
+		   //-------------粉---------------
+    	long calculation3 = (nowtime - ItemCannabisPowder.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
+	
+    	if(!Flag3){
+    	if(ItemCannabisPowder.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
+    	if(calculation3 == 900)//900だった場合(=15分)
+    	{
+		
+    		//Worldのインスタンス取得。
+    		World world = Minecraft.getMinecraft().theWorld;
+
+    		//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
+    		int potionID = Potion.confusion.id;
+    		int duration = 120 * 20;
+    		int amplifier = 2;
+
+    		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
+		
+    		//効果付与
+    		event.player.addPotionEffect(Effect);
+         
+    		world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+         
+		
+    		//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
+    		Flag3=true;
+			}
+			}
+    	}
+    	if(calculation3 == 903){Flag3= false;}
+    	//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
+    	
+		   //-------------異様な植物---------------
+ 	long calculation4 = (nowtime - ItemDryCannabisLeaf.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
+	
+ 	if(!Flag4){
+ 	if(ItemOPoppy.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
+ 	if(calculation4 == 900)//900だった場合(=15分)
+ 	{
+		
+ 		//Worldのインスタンス取得。
+ 		World world = Minecraft.getMinecraft().theWorld;
+
+ 		//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
+ 		int potionID = Potion.confusion.id;
+ 		int duration = 120 * 20;
+ 		int amplifier = 2;
+
+ 		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
+		
+ 		//効果付与
+ 		event.player.addPotionEffect(Effect);
+      
+ 		world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+      
+		
+ 		//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
+ 		Flag4=true;
+			}
+			}
+ 	}
+ 	if(calculation4 == 903){Flag4= false;}
+ 	//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
+		
+    	
+			
+		   //-------------異様な植物の乾燥物---------------
+	long calculation5 = (nowtime - ItemDryOPoppy.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
+	
+	if(!Flag5){
+	if(ItemDryOPoppy.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
+	if(calculation5 == 900)//900だった場合(=15分)
+	{
+		
+		//Worldのインスタンス取得。
+		World world = Minecraft.getMinecraft().theWorld;
+
+		//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
+		int potionID = Potion.confusion.id;
+		int duration = 120 * 20;
+		int amplifier = 2;
+
+		PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
+		
+		//効果付与
+		event.player.addPotionEffect(Effect);
+   
+		world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+   
+		
+		//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
+		Flag5=true;
+			}
+			}
+	}
+	if(calculation5 == 903){Flag5= false;}
+	//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
+	
+	   //-------------異様な植物の粉末---------------
+long calculation6 = (nowtime - ItemOPoppyPowder.depstartedtime)/1000L; //現在時間 - 使用時にセットした時間を秒単位に修正
+
+if(!Flag6){
+if(ItemOPoppyPowder.depStart=true){//保険。意味はないと思うが、誤作動の防止目的
+if(calculation6 == 900)//900だった場合(=15分)
+{
+	
+	//Worldのインスタンス取得。
+	World world = Minecraft.getMinecraft().theWorld;
+
+	//以下、吐き気のポーション。設定の意味はItemCannabisLeaf他参照
+	int potionID = Potion.confusion.id;
+	int duration = 120 * 20;
+	int amplifier = 2;
+
+	PotionEffect Effect = new PotionEffect(potionID, duration, amplifier);
+	
+	//効果付与
+	event.player.addPotionEffect(Effect);
+
+	world.playSoundAtEntity(event.player, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+
+	
+	//一度だけ実行させるためのフラグ。Falseのときのみ実行されるため、2度目以降は実行されない
+	Flag6=true;
+		}
+		}
+}
+if(calculation6 == 903){Flag6= false;}
+//3秒ほど後にまたFlagをfalseにして、フラッシュバックが何度でも起こるようにしている。
+}
+
+
+		@SubscribeEvent
+		public void onRenderTick(TickEvent.RenderTickEvent event)
+		{
+			/*
+			 * ここにRenderに関するtick処理を書く.
+			 * event.renderTickTimeでtick timeを取得できる.
+			 */
+	}
 	     }
 
 	        
 	    
 
-}
+
 
 

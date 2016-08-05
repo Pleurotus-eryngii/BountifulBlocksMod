@@ -14,6 +14,10 @@ public class ItemOPoppyPowder  extends ItemFood{
 		this.setAlwaysEdible();	//お腹すいてなくても食べれる。
 
 	}
+	
+	public static boolean depStart=false;
+	public static long depstartedtime;
+	
 	@Override
 	public ItemStack onEaten(ItemStack par1ItemStack, World par2World,
 			EntityPlayer par3EntityPlayer) {
@@ -33,15 +37,15 @@ public class ItemOPoppyPowder  extends ItemFood{
 		int potionID4 = Potion.digSpeed.id;
 		int potionID5 = Potion.moveSpeed.id;
 		//Potionの効果時間（【20tick ≒ 1秒】なので*20）
-		int duration = 60 * 20;
-		int duration2 = 60 * 20;
-		int duration3 = 60 * 20;
-		int duration4 = 60 * 20;
-		int duration5 = 60 * 20;
+		int duration = 70 * 20;
+		int duration2 = 70 * 20;
+		int duration3 = 70 * 20;
+		int duration4 = 70 * 20;
+		int duration5 = 70 * 20;
 		//PotionのLv(実際はこのレベルに+1される）
 		int amplifier = 3;
 		int amplifier2 = 3;
-		int amplifier3 = 1;
+		int amplifier3 = 2;
 		int amplifier4 = 3;
 		int amplifier5 = 3;
 
@@ -66,6 +70,10 @@ public class ItemOPoppyPowder  extends ItemFood{
          par3EntityPlayer.addPotionEffect(Effect5);
          
          par2World.playSoundAtEntity(par3EntityPlayer, "bountifulmod:cannabisbgm", 1.0F, 1.0F);
+         
+         long i = System.currentTimeMillis();
+    	 depstartedtime = i;//フラッシュバック用。使用時の時間を取得して代入
+    	 depStart=true;//保険。これがTrueのときのみ発動する。
      }
 
      
