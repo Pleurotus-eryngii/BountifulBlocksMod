@@ -6,21 +6,46 @@ import java.io.File;
 import cpw.mods.fml.client.registry.RenderingRegistry;
 import cpw.mods.fml.common.FMLCommonHandler;
 import cpw.mods.fml.common.Mod;
-import cpw.mods.fml.common.Mod.EventHandler;
-import cpw.mods.fml.common.SidedProxy;
 import cpw.mods.fml.common.event.FMLInitializationEvent;
 import cpw.mods.fml.common.event.FMLPreInitializationEvent;
 import cpw.mods.fml.common.registry.EntityRegistry;
 import cpw.mods.fml.common.registry.GameRegistry;
-import cpw.mods.fml.common.registry.VillagerRegistry;
 import cpw.mods.fml.relauncher.Side;
+import eryngii.bountifulblocks.blocks.BarrierBlock;
+import eryngii.bountifulblocks.blocks.BoneBlock;
+import eryngii.bountifulblocks.blocks.CRSSBlock;
+import eryngii.bountifulblocks.blocks.CoarseDirtBlock;
+import eryngii.bountifulblocks.blocks.DioriteBlock;
+import eryngii.bountifulblocks.blocks.FenceBlockX;
+import eryngii.bountifulblocks.blocks.MagmaBlock;
+import eryngii.bountifulblocks.blocks.PurpurPillarBlock;
+import eryngii.bountifulblocks.blocks.RedSandStoneBlock;
+import eryngii.bountifulblocks.blocks.SRSSBlock;
+import eryngii.bountifulblocks.blocks.SeaLanternBlock;
+import eryngii.bountifulblocks.item.ItemCoarseDirtBlock;
+import eryngii.bountifulblocks.item.ItemCookedRabbit;
+import eryngii.bountifulblocks.item.ItemDioriteBlock;
+import eryngii.bountifulblocks.item.ItemFenceBlockX;
+import eryngii.bountifulblocks.item.ItemHuskEgg;
+import eryngii.bountifulblocks.item.ItemPolarBearEgg;
+import eryngii.bountifulblocks.item.ItemRabbitEgg;
+import eryngii.bountifulblocks.item.ItemRabbitFoot;
+import eryngii.bountifulblocks.item.ItemRawRabbit;
+import eryngii.bountifulblocks.item.ItemStrayEgg;
+import eryngii.bountifulblocks.mobs.EntityHusk;
+import eryngii.bountifulblocks.mobs.EntityPolarBear;
+import eryngii.bountifulblocks.mobs.EntityRabbit;
+import eryngii.bountifulblocks.mobs.EntityStray;
+import eryngii.bountifulblocks.mobs.RenderHusk;
+import eryngii.bountifulblocks.mobs.RenderPolarBear;
+import eryngii.bountifulblocks.mobs.RenderRabbit;
+import eryngii.bountifulblocks.mobs.RenderStray;
 import net.minecraft.block.Block;
 import net.minecraft.block.material.Material;
 import net.minecraft.creativetab.CreativeTabs;
 import net.minecraft.entity.EnumCreatureType;
 import net.minecraft.item.Item;
 import net.minecraft.world.biome.BiomeGenBase;
-import net.minecraft.world.gen.structure.MapGenStructureIO;
 
 /*
  * コメントアウトでエリンギの解説が付いています。
@@ -28,7 +53,7 @@ import net.minecraft.world.gen.structure.MapGenStructureIO;
  * あくまで参考程度に
  */
 
-@Mod(modid="bountifulblocksmod", name="1.8BlocksMod", version="1.0")
+@Mod(modid="bountifulblocksmod", name="1.8/1.9/1.10BlocksMod", version="Beta1.0")
 
 public class BountifulBlocksCore {
 	/*
@@ -42,6 +67,11 @@ public class BountifulBlocksCore {
 	 * 村人関連の処理と、そのコメントアウトは
 	 * ModdingWikiのものを引用いたしました。
 	 * 更に、つてと様の豆腐Craftを参考に一部修正を行いました
+	 * 
+	 * Tick関連の処理に関しては、はやぶさ様の提案を参考に、
+	 * regin666様のWikiをもとに行いました
+	 * Tick関連の処理における時間の処理は、はやぶさ様の
+	 * ShowPlayingTimeModを参考にさせていただきました。
 	 * */
 	
 	 public static final String resourceDomain = "bountifulmod:";
@@ -62,38 +92,24 @@ public class BountifulBlocksCore {
 	  public static Block blockSmoothRedSandStone;
 	  public static Block blockChiseledRedSandStone;
 	  public static Block blockPurpurPillar;
+	  public static Block blockBone;
 	  
 	  //明かり類。今回はシーランタンのみ
 	  public static Block blockSeaLantern;
-	  
-	  //以下MayaCraft
-	  public static Block blockCannabis;//苗
-	  public static Item itemCannabisPlant;//全体
-	  public static Item itemCannabisLeaf;//葉
-	  public static Item itemCannabisPowder;//粉
-	  public static Block blockOpiumPoppy;//苗
-	  public static Item itemOpiumPoppyPlant;//全体
-	  public static Item itemOpiumPoppy;//使用部分
-	  public static Item itemOpiumPoppyPowder;//粉
-	  
-	  public static Block blockCannabisContainer;//圧縮ブロック
-	  public static Block blockOpiumPoppyContainer;//圧縮ブロック
-	  
+	  //マグマブロック
+	  public static Block blockMagma;
 
-		public static Item bonsaiManEgg;//盆栽マンのスポーンエッグ。デバッグ用に近いが一応残す
-	  
-	  //クリエイティブタブ
-	  public static final CreativeTabs tabsMaya = new CreativeTabMaya("Maya");
-	  //村人。
-	  public static VillagerMaya villagerMaya;
-	  public static int mayaVillagerProfession = 114514;
-	
-	  //プロキシ。Wikiでの登録手法では上手くいかなかったためきっちり登録した
-	  @SidedProxy(clientSide = "eryngii.bountifulblocks.ClientProxy", 
-						  serverSide = "eryngii.bountifulblocks.CommonProxy")
-	  public static CommonProxy proxy;
-	  public static ClientProxy clientproxy;
-	    
+		public static Item rabbitEgg;
+		public static Item polarBearEgg;
+		public static Item strayEgg;
+		public static Item huskEgg;
+		
+		public static Item rabbitHide;
+		public static Item rawRabbit;
+		public static Item cookedRabbit;
+		public static Item rabbitFoot;
+		
+
 	    
 	  @Mod.EventHandler
 	  public void preInit(FMLPreInitializationEvent event)
@@ -112,6 +128,10 @@ public class BountifulBlocksCore {
 
 			blockCoarseDirt = new CoarseDirtBlock();
 			GameRegistry.registerBlock(blockCoarseDirt, ItemCoarseDirtBlock.class, "blockCoarseDirt");
+			
+
+			
+
 
 			//ここで指定するテクスチャは、Minecraft本体のテクスチャファイル内を探していて都合が悪いので空
 			blockFenceX = new FenceBlockX("", Material.wood);
@@ -131,137 +151,156 @@ public class BountifulBlocksCore {
 			blockPurpurPillar = new PurpurPillarBlock();
 			GameRegistry.registerBlock(blockPurpurPillar, "blockPurpurPillar");
 			
+			blockBone = new BoneBlock();
+			GameRegistry.registerBlock(blockBone, "blockBone");
+			
 			blockBarrier = new BarrierBlock();
 			GameRegistry.registerBlock(blockBarrier, "blockBarrier");
 			
 			blockSeaLantern = new SeaLanternBlock();
 			GameRegistry.registerBlock(blockSeaLantern, "blockSeaLantern");
 			
-			blockCannabis = new CannabisBlock();
-			GameRegistry.registerBlock(blockCannabis, "blockCannabis");
-			
-			itemCannabisPlant = new Item()
-					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemCannabisPlant")/*システム名の登録*/
-					.setTextureName("bountifulmod:cannabis_plant");/*テクスチャの指定*/
-			GameRegistry.registerItem(itemCannabisPlant, "itemCannabisPlant");
-			
-			//引数は左から満腹度回復量、腹持ち、オオカミに食べさせられるかどうか
-			itemCannabisLeaf = (new ItemCannabisLeaf(1, 1.0F, false))
-					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemCannabisLeaf")/*システム名の登録*/
-					.setTextureName("bountifulmod:cannabis_leaf");/*テクスチャの指定*/
-			GameRegistry.registerItem(itemCannabisLeaf, "itemCannabisLeaf");
-			
-			itemCannabisPowder = (new ItemCannabisPowder(1, 1.0F, false))
-					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemCannabisPowder")/*システム名の登録*/
-					.setTextureName("bountifulmod:cannabis_powder")/*テクスチャの指定*/;
-			GameRegistry.registerItem(itemCannabisPowder, "itemCannabisPowder");
-			
-			
-			blockOpiumPoppy = new OPoppyBlock();
-			GameRegistry.registerBlock(blockOpiumPoppy, "blockOpiumPoppy");
-			
-			itemOpiumPoppyPlant = new Item()
-					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemOpiumPoppyPlant")/*システム名の登録*/
-					.setTextureName("bountifulmod:opoppy_plant");/*テクスチャの指定*/
-			GameRegistry.registerItem(itemOpiumPoppyPlant, "itemOpiumPoppyPlant");
-			
-			itemOpiumPoppy = (new ItemOPoppy(1, 1.0F, false))
-					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemOpiumPoppy")/*システム名の登録*/
-					.setTextureName("bountifulmod:opoppy");/*テクスチャの指定*/
-			GameRegistry.registerItem(itemOpiumPoppy, "itemOpiumPoppy");
+			blockMagma = new MagmaBlock();
+			GameRegistry.registerBlock(blockMagma, "blockMagma");
 			
 
-			itemOpiumPoppyPowder = (new ItemOPoppyPowder(1, 1.0F, false))
-					.setCreativeTab(tabsMaya)/*クリエイティブのタブ*/
-					.setUnlocalizedName("itemOpiumPoppyPowder")/*システム名の登録*/
-					.setTextureName("bountifulmod:opoppy_powder");/*テクスチャの指定*/
-			GameRegistry.registerItem(itemOpiumPoppyPowder, "itemOpiumPoppyPowder");
-			
-			
-			blockCannabisContainer = new CannabisContainerBlock();
-			GameRegistry.registerBlock(blockCannabisContainer, "blockCannabisContainer");
-			
-			blockOpiumPoppyContainer = new OpiumPoppyContainerBlock();
-			GameRegistry.registerBlock(blockOpiumPoppyContainer, "blockOpiumPoppyContainer");
-			
-			bonsaiManEgg = new ItemBonsaiManEgg(Color.BLACK.getRGB(), Color.GREEN.getRGB())
+					
+					//カラーコードをColorに変換して色を取得する。Pは全体色、Sは斑点
+					int intRabbitP = Integer.parseInt( "936c59",16);
+					Color rabbitPrimary = new Color( intRabbitP );
+					int intRabbitS = Integer.parseInt( "513830",16);
+					Color rabbitSecondary = new Color( intRabbitS );
+
+					
+			rabbitEgg = new ItemRabbitEgg(rabbitPrimary.getRGB() , rabbitSecondary.getRGB())
 					//クリエイティブタブの登録
-					.setCreativeTab(BountifulBlocksCore.tabsMaya)
+					.setCreativeTab(CreativeTabs.tabMisc)
 					//システム名の登録
-					.setUnlocalizedName("BonsaimanEgg")
+					.setUnlocalizedName("RabbitEgg")
 					//テクスチャ名の登録
 					.setTextureName("spawn_egg");
 					//GameRegistryへの登録
-					GameRegistry.registerItem(bonsaiManEgg, "bonsaiManEgg");
+					GameRegistry.registerItem(rabbitEgg, "RabbitEgg");
 			
-			/*
-			//ブロックやアイテムの登録後に行わないと、アイテムが描画できずクラッシュしてしまう
-			if (BountifulBlocksConfig.achievement)
-		     {
-		         MayaAchievements.load();
-		     }
-		*/
-			//実績の登録
-			MayaAchievements.initAchievements();
+			polarBearEgg = new ItemPolarBearEgg(Color.WHITE.getRGB(), Color.GRAY.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(CreativeTabs.tabMisc)
+					//システム名の登録
+					.setUnlocalizedName("PolarBearEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(polarBearEgg, "PolarBearEgg");
+					
+					int intStrayP = Integer.parseInt( "617617",16);
+					Color strayPrimary = new Color( intStrayP );
+					int intStrayS = Integer.parseInt( "9babac",16);
+					Color straySecondary = new Color( intStrayS );
+					
+			strayEgg = new ItemStrayEgg(strayPrimary.getRGB() , straySecondary.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(CreativeTabs.tabMisc)
+					//システム名の登録
+					.setUnlocalizedName("StrayEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(strayEgg, "StrayEgg");
+					
+
+					int intHuskP = Integer.parseInt( "59503b",16);
+					Color huskPrimary = new Color( intHuskP );
+					int intHuskS = Integer.parseInt( "e6cc94",16);
+					Color huskSecondary = new Color( intHuskS );
+					
+			huskEgg = new ItemHuskEgg(huskPrimary.getRGB() , huskSecondary.getRGB())
+					//クリエイティブタブの登録
+					.setCreativeTab(CreativeTabs.tabMisc)
+					//システム名の登録
+					.setUnlocalizedName("HuskEgg")
+					//テクスチャ名の登録
+					.setTextureName("spawn_egg");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(huskEgg, "HuskEgg");
 			
-}
+			rabbitHide = new Item()
+					//クリエイティブタブの登録
+					.setCreativeTab(CreativeTabs.tabMaterials)
+					//システム名の登録
+					.setUnlocalizedName("RabbitHide")
+					//テクスチャ名の登録
+					.setTextureName("bountifulmod:rabbithide");
+					//GameRegistryへの登録
+					GameRegistry.registerItem(rabbitHide, "RabbitHide");
+
+			rawRabbit = (new ItemRawRabbit(3, 1.0F, true));
+			GameRegistry.registerItem(rawRabbit, "RawRabbit");
+			
+			cookedRabbit = (new ItemCookedRabbit(5, 1.0F, true));
+			GameRegistry.registerItem(cookedRabbit, "CookedRabbit");
+			
+			rabbitFoot = (new ItemRabbitFoot(0, 0.0F, false));
+			GameRegistry.registerItem(rabbitFoot, "RabbitFoot");
+			
+			
+
+	
+			
+			
+	}
 	    
 		
-	  @EventHandler
+	  @Mod.EventHandler
 	  public void init(FMLInitializationEvent event){
-		  
+			/*
+			 * Eventの登録
+			 */
+			FMLCommonHandler.instance().bus().register(this);
+			
 		  //盆栽マンの登録。スポーン地点を大量に登録しているが動くかどうかは不明
-		    EntityRegistry.registerModEntity(EntityBonsaiMan.class, "BonsaimanEntity", 0, this, 250, 1, false);
-	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.plains);
-	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.forest);
-	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.beach);
-	        EntityRegistry.addSpawn(EntityBonsaiMan.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desert);
+		    EntityRegistry.registerModEntity(EntityRabbit.class, "RabbitEntity", 2, this, 250, 1, false);
+		    EntityRegistry.registerModEntity(EntityPolarBear.class, "PolarBearEntity", 3, this, 250, 1, false);
+		    EntityRegistry.registerModEntity(EntityStray.class, "StrayEntity", 4, this, 250, 1, false);
+		    EntityRegistry.registerModEntity(EntityHusk.class, "HuskEntity", 5, this, 250, 1, false);
+		     
+			 
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desert);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.forest);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.taiga);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.coldTaiga);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.coldTaigaHills);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.iceMountains);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.jungleHills);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.birchForestHills);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.forestHills);
+		     EntityRegistry.addSpawn(EntityRabbit.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desertHills);
+		     EntityRegistry.addSpawn(EntityHusk.class, 20, 1, 4, EnumCreatureType.monster, BiomeGenBase.desert);
+		     EntityRegistry.addSpawn(EntityHusk.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.desertHills);
+		     EntityRegistry.addSpawn(EntityStray.class, 20, 1, 4, EnumCreatureType.monster, BiomeGenBase.icePlains);
+		     EntityRegistry.addSpawn(EntityStray.class, 20, 1, 4, EnumCreatureType.creature, BiomeGenBase.iceMountains);
 	        //Render設定
 	        if(FMLCommonHandler.instance().getSide() == Side.CLIENT) {
-			RenderingRegistry.registerEntityRenderingHandler(EntityBonsaiMan.class, new RenderBonsaiMan());
+			RenderingRegistry.registerEntityRenderingHandler(EntityRabbit.class, new RenderRabbit());
+			RenderingRegistry.registerEntityRenderingHandler(EntityPolarBear.class, new RenderPolarBear());
+			RenderingRegistry.registerEntityRenderingHandler(EntityStray.class, new RenderStray());
+			RenderingRegistry.registerEntityRenderingHandler(EntityHusk.class, new RenderHusk());
+	        }
 
-		  villagerMaya = new VillagerMaya();
-		  
-			/*
-			 * 村人の職業IDを登録しています
-			 */
-	                VillagerRegistry.instance().registerVillagerId(mayaVillagerProfession);
 	 
-			/*
-			 * 村人を登録しています
-			 */
-			VillagerRegistry.instance().registerVillageTradeHandler(mayaVillagerProfession, villagerMaya);
-	 
-			/*
-			 * 村人の家を登録しています
-			 */
-			VillagerRegistry.instance().registerVillageCreationHandler(new VillageCreationHandleMayaHouse());
-	                /*
-	                 * #Forge1.7.10-10.13.0.1230現在
-	                 * 通常は、registerStructureで建物のStructureStartを継承したクラスを登録した後
-	                 * func_143031_aで建物のStructureComponentを継承したクラスを登録する必要がありますが
-	                 * 今回は、両方でComponentVillageSampleHouseを登録しています
-	                 */
-	                MapGenStructureIO.registerStructure(ComponentVillageMayaHouse.class, "VCHSH");
-	                MapGenStructureIO.func_143031_a(ComponentVillageMayaHouse.class, "VCHSHP");
-	 
-	               proxy.init();
+
 	                
 
 	    		  	//レシピ登録
 	    		  RecipeRegister.init();
 
 	    	        }
+	  
+
 	     }
 
 	        
 	    
 
-}
+
 
 

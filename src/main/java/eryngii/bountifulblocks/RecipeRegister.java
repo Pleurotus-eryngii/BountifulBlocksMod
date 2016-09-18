@@ -74,6 +74,31 @@ public class RecipeRegister {
 	 	        new ItemStack(Items.dye,1,4)
 	 	);
 
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockDiorite,1,14),
+	            "###",
+	            "###",
+	            "###",
+	            '#', new ItemStack(Items.nether_wart)
+	   
+	    );
+	    
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockDiorite,1,15),
+	            "@#",
+	            "#@",
+	            '#', new ItemStack(Items.nether_wart),
+	            '@', new ItemStack(Items.netherbrick)
+	   
+	    );
+	    
+
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockBone,1),
+	            "###",
+	            "###",
+	            "###",
+	            '#', new ItemStack(Items.dye,1,15)
+	   
+	    );
+	    
 	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockDiorite,4,6),
 	            "##",
 	            "##",
@@ -94,7 +119,12 @@ public class RecipeRegister {
 	            '#', new ItemStack(BountifulBlocksCore.blockDiorite,1,8) ,
 	            '@', Blocks.redstone_lamp
 	    );
-	    
+	   
+	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockMagma),
+	            "##",
+	            "##",
+	            '#', new ItemStack(Items.magma_cream) 
+	    );
 	    
 	    GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockRedSandStone),
 	            "##",
@@ -115,6 +145,7 @@ public class RecipeRegister {
 	            '#', new ItemStack(BountifulBlocksCore.blockRedSandStone)
 	   
 	    );
+	    
 	    
 	    GameRegistry.addRecipe(new ItemStack(Blocks.stonebrick,1,3),
 	            "#",
@@ -195,73 +226,17 @@ public class RecipeRegister {
 	            "###",
 	            '#', Blocks.glass
 	            );
+	    
+	    GameRegistry.addRecipe(new ItemStack(Items.leather),
+	            "##",
+	            "##",
+	            '#', BountifulBlocksCore.rabbitHide
+	    );
+	    
 		GameRegistry.addSmelting(new ItemStack(Blocks.stonebrick,1,0),new ItemStack(Blocks.stonebrick,1,2),0.1f);
+		GameRegistry.addSmelting(new ItemStack(BountifulBlocksCore.rawRabbit,1),new ItemStack(BountifulBlocksCore.cookedRabbit,1),0.35f);
 		 
 		     
-		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisLeaf,4),
-				new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
-				);
-		     
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemCannabisPlant,9),
-				new ItemStack(BountifulBlocksCore.blockCannabisContainer,1)
-				);
-		
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis),
-		    	"##",
-		    	"##",
-	             '#',new ItemStack(Items.wheat_seeds)
-				);
-		     
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabis,3),
-				"@@",
-				"@@",
-				'@', new ItemStack(BountifulBlocksCore.itemCannabisPlant,1)
-				);
-		
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockCannabisContainer,3),
-				"@@@",
-				"@@@",
-				"@@@",
-				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
-				);
-		     
-		
-		 GameRegistry.addSmelting(BountifulBlocksCore.itemCannabisLeaf,new ItemStack(BountifulBlocksCore.itemCannabisPowder),0.1f);
-			
-
-		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppy,4),
-				new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
-				);
-		     
-		
-		GameRegistry.addShapelessRecipe(new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,9),
-				new ItemStack(BountifulBlocksCore.blockOpiumPoppyContainer,1)
-				);
-		
-		
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy),
-				"#",
-				"#",
-				'#',new ItemStack(Items.wheat_seeds)
-				);
-		    	
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppy,3),
-				"@@",
-				"@@",
-				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
-				);
-		
-		GameRegistry.addRecipe(new ItemStack(BountifulBlocksCore.blockOpiumPoppyContainer,3),
-				"@@@",
-				"@@@",
-				"@@",
-				'@', new ItemStack(BountifulBlocksCore.itemOpiumPoppyPlant,1)
-				);
-		
-
-		
-		 GameRegistry.addSmelting(BountifulBlocksCore.itemOpiumPoppy,new ItemStack(BountifulBlocksCore.itemOpiumPoppyPowder),0.1f);
 		
 
 		     }
